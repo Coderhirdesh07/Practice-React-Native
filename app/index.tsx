@@ -1,64 +1,126 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import {
+  ScrollView,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React from 'react';
+import favicon from '../assets/images/favicon.png';
 
-const index = () => {
-  function helper(){
-    alert('You touched a button');
+const Index = () => {
+  function helper(name: string) {
+    alert(`You pressed ${name}`);
   }
-  return (
-    <View style={styles.container}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollContainer}>
-       <TouchableOpacity onPress={helper} style={styles.box}>
-         <Text>General</Text>
-        </TouchableOpacity>
-      <View style={styles.box}>
-      <Text>Entertainment</Text>
-      </View>
-      <View style={styles.box}>
-      <Text>Buisness</Text>
-      </View>
-      <View style={styles.box}>
-      <Text>Health</Text>
-      </View>
-      <View style={styles.box}>
-      <Text>Sports</Text>
-      </View>
-      </ScrollView>
-      
-      {/* <Text style={styles.heading}>
-        Hello EveryOne!
-      </Text> */}
-    </View>
-  )
-}
+  const heading = ['General', 'Business', 'Sports', 'Entertainment', 'Health'];
 
-export default index
+  return (
+    <View>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        {heading.map((heading, i) => (
+          <TouchableOpacity
+            key={i}
+            onPress={() => helper(heading)}
+            style={styles.categoryCard}
+          >
+            <Image style={styles.img} source={favicon} />
+            <Text style={styles.categoryName}>{heading}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      <Text style={styles.title}>Latest News</Text>
+      <ScrollView
+        contentContainerStyle={styles.newsContainer}
+        showsVerticalScrollIndicator={true}
+        showsHorizontalScrollIndicator={false}
+      >
+        <TouchableOpacity style={styles.newsItemContainer}>
+          <View style={styles.newsimg} />
+          <View>
+            <Text style={styles.newsTitle}>News Title</Text>
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={2}
+              style={styles.newsDescription}
+            >
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Quisquam, obcaecati.
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+};
+
+export default Index;
 
 const styles = StyleSheet.create({
-  container:{
-    width:'100%',
-    height:'100%',
+  scrollContainer: {
+    display: 'flex',
+    height: 140,
+    flexDirection: 'row',
+    gap: 5,
+    marginTop: 12,
   },
-  heading:{
-    fontSize:15,
-    fontWeight:'bold'
+  categoryCard: {
+    height: 120,
+    width: 180,
+    backgroundColor: '#4287f5',
+    display: 'flex',
+    padding: 5,
+    borderRadius: 5,
+    flexDirection: 'column',
+    gap: 2,
+    marginRight: 10,
+    justifyContent: 'flex-end',
+    alignItems: 'baseline',
   },
-  box:{
-    backgroundColor:'#4287f5',
-    height:120,
-    width:150,
-    borderRadius:10,
-    marginLeft:2,
-    marginRight:2,
-    boxShadow:'5',
-    display:'flex',
-    justifyContent:'flex-end',
-    alignItems:'center'
+  newsContainer: {
+    marginTop: 15,
   },
-  scrollContainer:{
-    display:'flex',
-    marginLeft:2,
-    marginRight:2,
-    marginTop:10,
-  }
-})
+
+  newsimg: {
+    width: 80,
+    height: 80,
+    marginBottom: 2,
+    borderRadius: 6,
+    backgroundColor: '#CD1C18',
+  },
+
+  img: {},
+  categoryName: {
+    fontSize: 25,
+    fontWeight: '600',
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: 12,
+  },
+  newsTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  newsDescription: {
+    fontSize: 15,
+    textOverflow: 'hidden',
+  },
+  newsItemContainer: {
+    width: 'auto',
+    display: 'flex',
+    backgroundColor: '#898989',
+    flexDirection: 'row',
+    gap: 5,
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 10,
+  },
+});
