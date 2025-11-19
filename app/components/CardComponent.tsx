@@ -1,28 +1,27 @@
 import {
-  ScrollView,
   StyleSheet,
   Image,
   Text,
   TouchableOpacity,
   View,
+  ImageSourcePropType,
 } from 'react-native';
 import React from 'react';
-import favicon from '../../assets/images/favicon.png';
 
 interface CardComponentProps {
   heading: string;
-  imageurl?: string;
+  image: ImageSourcePropType;
   onClick?: (name: string) => void;
 }
 
-const CardComponent = ({ heading, imageurl, onClick }: CardComponentProps) => {
+const CardComponent = ({ heading, image, onClick }: CardComponentProps) => {
   return (
     <View style={styles.cardComponentContainer}>
       <TouchableOpacity
-        onPress={() => onClick?.name}
+        onPress={() => onClick?.(heading)}
         style={styles.categoryCard}
       >
-        <Image style={styles.img} source={favicon} />
+        <Image style={styles.img} source={image} />
 
         <Text style={styles.categoryName}>{heading}</Text>
       </TouchableOpacity>
@@ -32,13 +31,6 @@ const CardComponent = ({ heading, imageurl, onClick }: CardComponentProps) => {
 
 export default CardComponent;
 const styles = StyleSheet.create({
-  scrollContainer: {
-    display: 'flex',
-    height: 140,
-    flexDirection: 'row',
-    gap: 5,
-    marginTop: 12,
-  },
   categoryCard: {
     height: 120,
     width: 180,
@@ -52,10 +44,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'baseline',
   },
-  img: {},
+  img: {
+    height:40,
+    width:40,
+    borderRadius:2,
+  },
   categoryName: {
-    fontSize: 25,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '500',
   },
   cardComponentContainer: {
     marginVertical: 10,

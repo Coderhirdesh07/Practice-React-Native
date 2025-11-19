@@ -28,10 +28,12 @@ function buildAdditionalParameter(params: ApiAdditionalInfo = {}) {
 
   return queryParams.toString();
 }
-export async function handleApiArticlesEndpoint(): Promise<NewsResponse | null> {
+
+
+export async function handleApiArticlesEndpoint(params: ApiAdditionalInfo = {}): Promise<NewsResponse | null> {
   try {
-    // const additionalInfo = buildAdditionalParameter(params);
-    const COMPLETE_URL = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=${API_CONFIG.API_KEY}`;
+     const additionalInfo = buildAdditionalParameter(params);
+     const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.ARTICLES_ENDPOINT}/${additionalInfo}`;
 
     const response = await fetch(COMPLETE_URL);
     if (!response.ok) {
@@ -47,13 +49,11 @@ export async function handleApiArticlesEndpoint(): Promise<NewsResponse | null> 
   }
 }
 
-export async function handleApiTopHeadlinesEndpoint(
-  params: ApiAdditionalInfo = {},
-): Promise<NewsResponse | null> {
+
+export async function handleApiTopHeadlinesEndpoint(): Promise<NewsResponse | null> {
   try {
-    //    const additionalInfo = buildAdditionalParameter(params);
-    //    const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.TOP_HEADLINES_ENDPOINT}?${additionalInfo}`;
-    const COMPLETE_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_CONFIG.API_KEY}`;
+    const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.TOP_HEADLINES_ENDPOINT}/apikey=${API_CONFIG.API_KEY}`;
+    
     const response = await fetch(COMPLETE_URL);
     if (!response.ok) {
       console.error('Api Error', response.statusText);

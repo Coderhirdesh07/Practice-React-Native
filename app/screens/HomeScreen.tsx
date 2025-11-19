@@ -3,31 +3,22 @@ import React, { useEffect, useState } from 'react';
 import CardComponent from '../components/CardComponent';
 import NewsItemComponent from '../components/NewsItemComponent';
 import { NewsApiData } from '../constants/data';
-import {
-  handleApiTopHeadlinesEndpoint,
-  handleApiArticlesEndpoint,
-} from '../networkutils/index';
+import {handleApiArticlesEndpoint} from '../networkutils/index';
+import {cardCategory} from "../constants/constants"
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
   const [response, setResponse] = useState<NewsApiData | null>(null);
-  const [category, setCategory] = useState<String | null>(null);
-
-  const categoryCardHeading = [
-    'General',
-    'Business',
-    'Sports',
-    'Entertainment',
-    'Health',
-  ];
+  const [category, setCategory] = useState<string>('');
 
   const categorySelection = (name: string) => {
     setCategory(name);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (category:string) => {
       try {
-        const data = await handleApiArticlesEndpoint();
+        const data = await handleApiArticlesEndpoint(category?{category}:{});
         if (data) {
           setResponse(data);
         } else setResponse(null);
@@ -35,22 +26,23 @@ const HomeScreen = () => {
         console.log(error);
       }
     };
-    fetchData();
-  }, []);
+    fetchData(category);
+  }, [category]);
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         alwaysBounceVertical={false}
         contentContainerStyle={styles.scrollContainer}
       >
-        {categoryCardHeading.map(name => (
+        {cardCategory.map((item) => (
           <CardComponent
-            key={name}
-            heading={name}
-            onClick={() => categorySelection(name)}
+            key={item.name}
+            heading={item.name}
+            image={item.icon}
+            onClick={() => categorySelection(item.name)}
           />
         ))}
       </ScrollView>
@@ -61,7 +53,7 @@ const HomeScreen = () => {
         keyExtractor={(item, index) => item.url || index.toString()}
         renderItem={({ item }) => <NewsItemComponent newsItemData={item} />}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -70,10 +62,13 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   scrollContainer: {
     display: 'flex',
-    height: 140,
+    flex:1,
     flexDirection: 'row',
     gap: 5,
-    marginTop: 12,
+    marginTop: 15,
+  },
+  container:{
+    
   },
   title: {
     fontSize: 30,

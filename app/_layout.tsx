@@ -7,10 +7,14 @@ import HomeScreen from './screens/HomeScreen';
 import HomeIcon from '../assets/icons/icons8-home-100.png';
 import SearchIcon from '../assets/icons/icons8-search-100.png';
 import ProfileIcon from '../assets/icons/icons8-profile-100.png';
+import {  NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import  SplashScreen  from '../app/screens/SplashScreen';
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default function RootLayout() {
+function BottomTabsScreen(){
   return (
     <Tab.Navigator
       screenOptions={{
@@ -70,5 +74,30 @@ export default function RootLayout() {
         }}
       />
     </Tab.Navigator>
+  )
+}
+
+export default function RootLayout() {
+  return (
+    <NavigationContainer>
+        <Stack.Navigator 
+          initialRouteName='Splash'
+          screenOptions={{headerShown:false}}>
+          <Stack.Screen 
+          name="Splash" 
+          component={SplashScreen}
+          options={{headerShown:false}}
+          >
+          </Stack.Screen>
+
+          <Stack.Screen
+          name="Main"
+          component={BottomTabsScreen}
+          options={{headerShown:false}}
+          >
+          </Stack.Screen>
+        </Stack.Navigator>
+    </NavigationContainer>
+    
   );
 }

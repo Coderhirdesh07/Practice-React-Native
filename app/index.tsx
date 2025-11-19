@@ -1,61 +1,25 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React from 'react';
+import { View } from 'react-native'
 import favicon from '../assets/images/favicon.png';
 
 const Index = () => {
+
   function helper(name: string) {
     alert(`You pressed ${name}`);
   }
-  const heading = ['General', 'Business', 'Sports', 'Entertainment', 'Health'];
+
+  const heading = [
+        'General',
+        'Business', 
+        'Sports',
+        'Entertainment',
+        'Health'
+        ];
 
   return (
     <View>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        alwaysBounceVertical={false}
-        contentContainerStyle={styles.scrollContainer}
-      >
-        {heading.map((heading, i) => (
-          <TouchableOpacity
-            key={i}
-            onPress={() => helper(heading)}
-            style={styles.categoryCard}
-          >
-            <Image style={styles.img} source={favicon} />
-            <Text style={styles.categoryName}>{heading}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      <Text style={styles.title}>Latest News</Text>
-      <ScrollView
-        contentContainerStyle={styles.newsContainer}
-        showsVerticalScrollIndicator={true}
-        showsHorizontalScrollIndicator={false}
-      >
-        <TouchableOpacity style={styles.newsItemContainer}>
-          <View style={styles.newsimg} />
-          <View>
-            <Text style={styles.newsTitle}>News Title</Text>
-            <Text
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              style={styles.newsDescription}
-            >
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Quisquam, obcaecati.
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
+     
+      
     </View>
   );
 };

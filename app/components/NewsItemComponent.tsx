@@ -1,6 +1,5 @@
 import { StyleSheet, Image, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import favicon from '../../assets/images/favicon.png';
 import { Article } from '../constants/data';
 
 interface NewsItemProps {
@@ -8,15 +7,17 @@ interface NewsItemProps {
 }
 
 const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
+  
   function helper(name: string) {
     alert(`You pressed ${name}`);
   }
+
   return (
     <View>
       <TouchableOpacity style={styles.newsItemContainer}>
         {newsItemData.urlToImage ? (
           <Image
-            source={{ uri: newsItemData.urlToImage }}
+            source={{uri: newsItemData.urlToImage }}
             style={styles.newsimg}
           />
         ) : (
@@ -24,8 +25,7 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
         )}
         <View>
           <Text numberOfLines={2} style={styles.newsTitle}>
-            {' '}
-            {newsItemData.title}{' '}
+            {newsItemData.title}
           </Text>
           <Text
             ellipsizeMode="tail"
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     textOverflow: 'hidden',
   },
   newsItemContainer: {
-    width: 'auto',
     display: 'flex',
     backgroundColor: '#898989',
     flexDirection: 'row',
