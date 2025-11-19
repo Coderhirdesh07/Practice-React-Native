@@ -30,10 +30,9 @@ function buildAdditionalParameter(params: ApiAdditionalInfo = {}) {
 }
 
 
-export async function handleApiArticlesEndpoint(params: ApiAdditionalInfo = {}): Promise<NewsResponse | null> {
+export  async function handleApiArticlesEndpoint(): Promise<NewsResponse | null> {
   try {
-     const additionalInfo = buildAdditionalParameter(params);
-     const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.ARTICLES_ENDPOINT}/${additionalInfo}`;
+     const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.ARTICLES_ENDPOINT}?q=bitcoin&apiKey=${API_CONFIG.API_KEY}`;
 
     const response = await fetch(COMPLETE_URL);
     if (!response.ok) {
@@ -50,7 +49,7 @@ export async function handleApiArticlesEndpoint(params: ApiAdditionalInfo = {}):
 }
 
 
-export async function handleApiTopHeadlinesEndpoint(): Promise<NewsResponse | null> {
+export  async function handleApiTopHeadlinesEndpoint(): Promise<NewsResponse | null> {
   try {
     const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.TOP_HEADLINES_ENDPOINT}/apikey=${API_CONFIG.API_KEY}`;
     

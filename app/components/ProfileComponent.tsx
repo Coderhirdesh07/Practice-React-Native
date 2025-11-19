@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View,Image } from 'react-native'
-import React from 'react'
-import arrow from '../../assets/icons/right-arrow.png'
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import arrow from '../../assets/icons/right-arrow.png';
 
-const ProfileComponent = () => {
+interface ProfileProp{
+    title:string;
+}
+
+const ProfileComponent = ({title}:ProfileProp) => {
   return (
-    <View style={styles.container}>
-        <Text style={styles.title}>Item</Text>
-        <Image style = {styles.img} source={arrow}/>
-    </View>
+        <TouchableOpacity onPress={() => alert('You pressed a component')} style={styles.container}>
+          <Text style={styles.title}>{title}</Text>
+          <Image style = {styles.img} source={arrow}/>
+        </TouchableOpacity>
   )
 }
 
@@ -17,14 +21,24 @@ const styles = StyleSheet.create({
     container:{
         height:50,
         display:'flex',
-        flexDirection:'row'
+        flexDirection:'row',
+        alignItems:'center',
+        padding:5,
+        justifyContent:'space-between'
     },
     img:{
-        height:15,
-        width:12
+        height:20,
+        width:20,
+        marginRight:5
     },
     title:{
         fontSize:18,
         fontWeight:'medium'
+    },
+    outer:{
+        display:'flex',
+        flex:1,
+        padding:5,
+        marginTop:20,
     }
 })

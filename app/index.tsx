@@ -1,30 +1,75 @@
 import React from 'react';
-import { View } from 'react-native'
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import favicon from '../assets/images/favicon.png';
 
-const Index = () => {
-
+const index = () => {
   function helper(name: string) {
     alert(`You pressed ${name}`);
   }
 
   const heading = [
-        'General',
-        'Business', 
-        'Sports',
-        'Entertainment',
-        'Health'
-        ];
-
+    'General',
+    'Business', 
+    'Sports',
+    'Entertainment',
+    'Health'
+    ];
   return (
     <View>
-     
-      
-    </View>
-  );
-};
+        <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        {heading.map((heading, i) => (
+          <TouchableOpacity
+            key={i}
+            onPress={() => helper(heading)}
+            style={styles.categoryCard}
+          >
+            <Image style={styles.img} source={favicon} />
+            <Text style={styles.categoryName}>{heading}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
-export default Index;
+      <Text style={styles.title}>Latest News</Text>
+      <ScrollView
+        contentContainerStyle={styles.newsContainer}
+        showsVerticalScrollIndicator={true}
+        showsHorizontalScrollIndicator={false}
+      >
+        <TouchableOpacity style={styles.newsItemContainer}>
+          <View style={styles.newsimg} />
+          <View>
+            <Text style={styles.newsTitle}>News Title</Text>
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={2}
+              style={styles.newsDescription}
+            >
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Quisquam, obcaecati.
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
+
+
+
+    </View>
+  )
+}
+
+export default index
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -50,7 +95,6 @@ const styles = StyleSheet.create({
   newsContainer: {
     marginTop: 15,
   },
-
   newsimg: {
     width: 80,
     height: 80,
@@ -58,7 +102,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#CD1C18',
   },
-
   img: {},
   categoryName: {
     fontSize: 25,
@@ -86,5 +129,5 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginTop: 10,
-  },
-});
+  }
+})

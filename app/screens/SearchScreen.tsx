@@ -1,9 +1,9 @@
-import { StyleSheet,FlatList, Text,View,Image, TextInput} from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { FlatList, Image, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import search from "../../assets/icons/icons8-search-100.png"
-import { NewsApiData } from '../constants/data';
+import search from "../../assets/icons/icons8-search-100.png";
 import NewsItemComponent from '../components/NewsItemComponent';
+import { NewsApiData } from '../constants/data';
 import { handleApiArticlesEndpoint } from '../networkutils';
 
 const SearchScreen = () => {
@@ -12,9 +12,9 @@ const SearchScreen = () => {
   const [response,setResponse] = useState<NewsApiData | null>(null);
 
   useEffect(() => {
-    const fetchData = async(q:string)=>{
+    const fetchData = async()=>{
       try{
-       const data = await handleApiArticlesEndpoint({q:query});
+       const data = await handleApiArticlesEndpoint();
         if(!data){
          setResponse(null);
         }
@@ -24,7 +24,7 @@ const SearchScreen = () => {
         console.log('Error in search screen part');
       }
     }
-    fetchData(query);
+    fetchData();
   },[query]);
 
   return (
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     margin: 12,
   },
   secondContainer:{
-    marginTop:15
+    marginTop:15,
+    padding:3,
   },
   img:{
     width:50,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   container:{
     width:'auto',
     display:'flex',
-    flexDirection:'row-reverse',
+    flexDirection:'column',
     gap:4,
     marginTop:10,
     padding:5

@@ -1,12 +1,12 @@
+import React from 'react';
 import {
-  StyleSheet,
   Image,
+  ImageSourcePropType,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ImageSourcePropType,
 } from 'react-native';
-import React from 'react';
 
 interface CardComponentProps {
   heading: string;
@@ -32,15 +32,15 @@ const CardComponent = ({ heading, image, onClick }: CardComponentProps) => {
 export default CardComponent;
 const styles = StyleSheet.create({
   categoryCard: {
-    height: 120,
-    width: 180,
+    height: 130,
+    width: 170,
     backgroundColor: '#4287f5',
     display: 'flex',
     padding: 5,
     borderRadius: 5,
     flexDirection: 'column',
-    gap: 2,
-    marginRight: 10,
+    gap: 1,
+    marginRight: 13,
     justifyContent: 'flex-end',
     alignItems: 'baseline',
   },
@@ -55,5 +55,7 @@ const styles = StyleSheet.create({
   },
   cardComponentContainer: {
     marginVertical: 10,
+    display:'flex',
+    flex:1,
   },
 });
