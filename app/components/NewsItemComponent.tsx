@@ -7,7 +7,6 @@ interface NewsItemProps {
 }
 
 const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
-  
   function helper(name: string) {
     alert(`You pressed ${name}`);
   }
@@ -17,7 +16,7 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
       <TouchableOpacity style={styles.newsItemContainer}>
         {newsItemData.urlToImage ? (
           <Image
-            source={{uri: newsItemData.urlToImage }}
+            source={{ uri: newsItemData.urlToImage }}
             style={styles.newsimg}
           />
         ) : (

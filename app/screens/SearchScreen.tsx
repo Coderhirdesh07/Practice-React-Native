@@ -1,52 +1,68 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, TextInput, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import search from "../../assets/icons/icons8-search-100.png";
+import search from '../../assets/icons/icons8-search-100.png';
 import NewsItemComponent from '../components/NewsItemComponent';
 import { NewsApiData } from '../constants/data';
 import { handleApiArticlesEndpoint } from '../networkutils';
 
 const SearchScreen = () => {
+  const [query, setQuery] = useState<string>('');
+  const [response, setResponse] = useState<NewsApiData | null>(null);
 
-  const [query,setQuery] = useState<string>('');
-  const [response,setResponse] = useState<NewsApiData | null>(null);
+  async function handleQuery(q: string) {
+    try {
+      const data = await handleApiArticlesEndpoint(q);
+      if (!data) {
+        setResponse(null);
+      }
+      setResponse(data);
+    } catch (error) {
+      console.log('Error in search screen part');
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async()=>{
-      try{
-       const data = await handleApiArticlesEndpoint();
-        if(!data){
-         setResponse(null);
-        }
-       setResponse(data);
-      }
-      catch(error){
-        console.log('Error in search screen part');
-      }
+    if (!query.trim()) {
+      setResponse(null);
+      return;
     }
-    fetchData();
-  },[query]);
+    const timeout = setTimeout(() => {
+      handleQuery(query);
+    }, 500); // debounce 500ms
+
+    return () => clearTimeout(timeout);
+  }, [query]);
 
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Image style={styles.img} source={search}/>
-        <TextInput
-         accessibilityRole='search'
-         style={styles.input}
-         onChangeText={setQuery}
-         value={query}
-         placeholder={"Enter Text to search"}
-         keyboardType="default"
-      />
+        <TouchableOpacity onPress={() => handleQuery(query)}>
+          <Image style={styles.img} source={search} />
+        </TouchableOpacity>
 
-      <View style={styles.secondContainer}>
-      <FlatList
-        data={response?.articles}
-        keyExtractor={(item, index) => item.url || index.toString()}
-        renderItem={({ item }) => <NewsItemComponent newsItemData={item} />}
-      />
+        <TextInput
+          accessibilityRole="search"
+          style={styles.input}
+          onChangeText={setQuery}
+          value={query}
+          placeholder={'Enter Text to search'}
+          keyboardType="default"
+        />
       </View>
+      <View style={styles.secondContainer}>
+        <FlatList
+          data={response?.articles}
+          keyExtractor={(item, index) => item.url || index.toString()}
+          renderItem={({ item }) => <NewsItemComponent newsItemData={item} />}
+        />
       </View>
     </SafeAreaView>
   );
@@ -55,33 +71,33 @@ const SearchScreen = () => {
 export default SearchScreen;
 
 const styles = StyleSheet.create({
-  
-  input:{
-    padding: 10,
-    flex:1,
+  input: {
+    padding: 2,
+    height: 30,
+    flex: 1,
     borderColor: '#000',
     borderWidth: 3,
-    borderRadius:5,
-    margin: 12,
+    borderRadius: 5,
+    marginTop: 8,
   },
-  secondContainer:{
-    marginTop:15,
-    padding:3,
+  secondContainer: {
+    marginTop: 15,
+    padding: 8,
   },
-  img:{
-    width:50,
-    height:50,
-    padding:4,
-    marginTop:10,
-    borderRadius:2
+  img: {
+    width: 30,
+    height: 30,
+    padding: 3,
+    marginTop: 8,
+    borderRadius: 2,
   },
-  container:{
-    width:'auto',
-    display:'flex',
-    flexDirection:'column',
-    gap:4,
-    marginTop:10,
-    padding:5
-  }
-
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    gap: 3,
+    marginTop: 15,
+    padding: 8,
+  },
 });

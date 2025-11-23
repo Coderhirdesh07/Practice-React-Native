@@ -1,54 +1,46 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import ProfileComponent from '../components/ProfileComponent';
-
+import { country, language } from '../constants/dropdown';
 const ProfileScreen = () => {
   return (
-    <ScrollView 
-     showsHorizontalScrollIndicator={false} 
-     showsVerticalScrollIndicator={false} 
-     horizontal={false}
-     bounces={false}
-     style={styles.container}>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      horizontal={false}
+      bounces={false}
+      style={styles.container}
+    >
+      <ProfileComponent title={'Profile'} />
+      {/* <ProfileComponent title={'My Wallet'} />
+      <ProfileComponent title={'My Post'} />
+      <ProfileComponent title={'Boost Your Post'} />
+      <ProfileComponent title={'Notification'} />
+      <ProfileComponent title={'Terms And Conditions'} />
+      <ProfileComponent title={'About'} />
+      <ProfileComponent title={'Watch Ads And Earn'} />
+      <ProfileComponent title={'Refer and Earn'} />
+      <ProfileComponent title={'Logout'} /> */}
+      <Dropdown 
+       style={styles.dropdown}
+       placeholder="Select Country"
+       data={country}
+       maxHeight={300}
+       labelField="value"
+       valueField="label"
+       />
 
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
-      <ProfileComponent title={"hello"}/>
-      <ProfileComponent title={"world"}/>
-      <ProfileComponent title={"cup"}/>
+      <Dropdown 
+       style={styles.dropdown}
+       placeholder="Select Language"
+       data={language}
+       maxHeight={300}
+       labelField="value"
+       valueField="label"
+       />
 
-      
+
     </ScrollView>
   );
 };
@@ -56,11 +48,19 @@ const ProfileScreen = () => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container:{
-    display:'flex',
-    flexDirection:'column',
-    padding:5,
-    marginTop:15,
-    gap:5
-  }
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 5,
+    marginTop: 15,
+    gap: 5,
+  },
+  dropdown: {
+    height: 35,
+    padding: 8,
+    marginTop:5,
+    marginBottom:5,
+    borderRadius: 5,
+    borderWidth: 3,
+  },
 });

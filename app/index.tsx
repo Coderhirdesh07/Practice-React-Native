@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import favicon from '../assets/images/favicon.png';
 
@@ -14,16 +14,10 @@ const index = () => {
     alert(`You pressed ${name}`);
   }
 
-  const heading = [
-    'General',
-    'Business', 
-    'Sports',
-    'Entertainment',
-    'Health'
-    ];
+  const heading = ['General', 'Business', 'Sports', 'Entertainment', 'Health'];
   return (
     <View>
-        <ScrollView
+      <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         alwaysBounceVertical={false}
@@ -62,14 +56,11 @@ const index = () => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-
-
-
     </View>
-  )
-}
+  );
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -129,5 +120,5 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginTop: 10,
-  }
-})
+  },
+});

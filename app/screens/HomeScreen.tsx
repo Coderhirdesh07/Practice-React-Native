@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import CardComponent from '../components/CardComponent';
 import NewsItemComponent from '../components/NewsItemComponent';
-import TopHeadlineComponent from '../components/TopHeadlineComponent';
-import { cardCategory } from "../constants/constants";
+import { cardCategory } from '../constants/constants';
 import { NewsApiData } from '../constants/data';
 import { handleApiArticlesEndpoint } from '../networkutils/index';
-
 const HomeScreen = () => {
   const [response, setResponse] = useState<NewsApiData | null>(null);
   const [category, setCategory] = useState<string>('');
@@ -19,7 +16,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await handleApiArticlesEndpoint();
+        const data = await handleApiArticlesEndpoint('bitcoin');
         if (data) {
           setResponse(data);
         } else setResponse(null);
@@ -28,17 +25,17 @@ const HomeScreen = () => {
       }
     };
     fetchData();
-  }, );
+  });
 
   return (
-    <SafeAreaView >
+    <View>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         alwaysBounceVertical={false}
         contentContainerStyle={styles.scrollContainer}
       >
-        {cardCategory.map((item) => (
+        {cardCategory.map(item => (
           <CardComponent
             key={item.name}
             heading={item.name}
@@ -48,97 +45,43 @@ const HomeScreen = () => {
         ))}
       </ScrollView>
 
-      <Text style={styles.title}>HEADLINES</Text>
-        <TopHeadlineComponent/>
+      {/* <Text style={styles.title}>HEADLINES</Text>
+        <TopHeadlineComponent/> */}
 
-
-      <Text style={styles.title}>BREAKING NEWS</Text>
+      <Text style={styles.title}>TOP HEADLINES</Text>
       <FlatList
         data={response?.articles}
         keyExtractor={(item, index) => item.url || index.toString()}
         renderItem={({ item }) => <NewsItemComponent newsItemData={item} />}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  // scrollContainer: {
-  //   display: 'flex',
-  //   flex:3,
-  //   flexDirection: 'row',
-  //   gap: 5,
-  //   marginTop: 12,
+  // container: {
+  //   flex:1,
+  //   backgroundColor:'#CD1C18',
+  //   marginTop:20,
   // },
-  container:{
-    
+  outer: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginTop: 15,
+    marginTop: 10,
+    marginLeft: 8,
   },
   scrollContainer: {
-    display: 'flex',
-    height: 140,
     flexDirection: 'row',
     gap: 5,
-    marginTop: 12,
-    marginBottom:5,
-    flex:2
+    marginTop: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 8,
   },
-  categoryCard: {
-    height: 120,
-    width: 180,
-    backgroundColor: '#4287f5',
-    display: 'flex',
-    padding: 5,
-    borderRadius: 5,
-    flexDirection: 'column',
-    gap: 2,
-    marginRight: 10,
-    marginLeft:5,
-    justifyContent: 'flex-end',
-    alignItems: 'baseline',
-  },
-  newsContainer: {
-    marginTop: 15,
-  },
-  newsimg: {
-    width: 80,
-    height: 80,
-    marginBottom: 2,
-    borderRadius: 6,
-    backgroundColor: '#CD1C18',
-  },
-  img: {},
-  categoryName: {
-    fontSize: 25,
-    fontWeight: '600',
-  },
-  // title: {
-  //   fontSize: 30,
-  //   fontWeight: 'bold',
-  //   marginTop: 12,
-  // },
-  newsTitle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  newsDescription: {
-    fontSize: 15,
-    textOverflow: 'hidden',
-  },
-  newsItemContainer: {
-    width: 'auto',
-    display: 'flex',
-    backgroundColor: '#898989',
-    flexDirection: 'row',
-    gap: 5,
-    borderRadius: 8,
-    padding: 12,
-    marginTop: 10,
-  }
 });

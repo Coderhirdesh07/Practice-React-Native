@@ -78,11 +78,11 @@ const Tab = createBottomTabNavigator();
 export default function RootLayout() {
   return (
     // <NavigationContainer>
-    //     <Stack.Navigator 
+    //     <Stack.Navigator
     //       initialRouteName='Splash'
     //       screenOptions={{headerShown:false}}>
-    //       <Stack.Screen 
-    //       name="Splash" 
+    //       <Stack.Screen
+    //       name="Splash"
     //       component={SplashScreen}
     //       options={{headerShown:false}}
     //       >
@@ -151,28 +151,27 @@ export default function RootLayout() {
                 tintColor: focused ? '#007AFF' : '#8e8e93',
               }}
             />
-
           ),
         }}
       />
 
-      <Tab.Screen 
-      name='Favourite' 
-      component={FavouriteScreen}
-      options={{
-        title:'Favourite',
-        tabBarIcon:({focused})=>(
-          <Image source={favourite}
-           style={{
-            height:24,
-            width:24,
-            tintColor:focused?'#007AFF' : '#8e8e93'
-          }}/>
-        )
-      }}>
-
-      </Tab.Screen>
+      <Tab.Screen
+        name="Favourite"
+        component={FavouriteScreen}
+        options={{
+          title: 'Favourite',
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={favourite}
+              style={{
+                height: 24,
+                width: 24,
+                tintColor: focused ? '#007AFF' : '#8e8e93',
+              }}
+            />
+          ),
+        }}
+      ></Tab.Screen>
     </Tab.Navigator>
-    
   );
 }

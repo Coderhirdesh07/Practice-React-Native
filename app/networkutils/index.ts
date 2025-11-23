@@ -7,32 +7,32 @@ const API_CONFIG = {
   ARTICLES_ENDPOINT: 'everything',
 };
 
+// interface ApiAdditionalInfo {
+//   category?: string;
+//   source?: string;
+//   q?: string;
+//   country?: string;
+//   language?: string;
+// }
+
 interface ApiAdditionalInfo {
-  category?: string;
-  source?: string;
   q?: string;
-  country?: string;
-  language?: string;
 }
 
-function buildAdditionalParameter(params: ApiAdditionalInfo = {}) {
-  const queryParams = new URLSearchParams({
-    apiKey: API_CONFIG.API_KEY,
-  });
+// function buildAdditionalParameter(params: ApiAdditionalInfo = {}) {
+//   const queryParams = new URLSearchParams({
+//     apiKey: API_CONFIG.API_KEY,
+//   });
+//   if (params.q != null) queryParams.append('q', params.q);
 
-  if (params.category != null) queryParams.append('category', params.category);
-  if (params.q != null) queryParams.append('q', params.q);
-  // if(params.source!=null) queryParams.append('sources',params.source);
-  if (params.country != null) queryParams.append('country', params.country);
-  if (params.language != null) queryParams.append('language', params.language);
+//   return queryParams.toString();
+// }
 
-  return queryParams.toString();
-}
-
-
-export  async function handleApiArticlesEndpoint(): Promise<NewsResponse | null> {
+export async function handleApiArticlesEndpoint(
+  query: string,
+): Promise<NewsResponse | null> {
   try {
-     const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.ARTICLES_ENDPOINT}?q=bitcoin&apiKey=${API_CONFIG.API_KEY}`;
+    const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.ARTICLES_ENDPOINT}?q=${encodeURIComponent(query)}&apiKey=${API_CONFIG.API_KEY}`;
 
     const response = await fetch(COMPLETE_URL);
     if (!response.ok) {
@@ -48,11 +48,10 @@ export  async function handleApiArticlesEndpoint(): Promise<NewsResponse | null>
   }
 }
 
-
-export  async function handleApiTopHeadlinesEndpoint(): Promise<NewsResponse | null> {
+export async function handleApiTopHeadlinesEndpoint(): Promise<NewsResponse | null> {
   try {
     const COMPLETE_URL = `${API_CONFIG.BASE_URL}/${API_CONFIG.TOP_HEADLINES_ENDPOINT}/apikey=${API_CONFIG.API_KEY}`;
-    
+
     const response = await fetch(COMPLETE_URL);
     if (!response.ok) {
       console.error('Api Error', response.statusText);

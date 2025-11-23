@@ -32,30 +32,29 @@ const CardComponent = ({ heading, image, onClick }: CardComponentProps) => {
 export default CardComponent;
 const styles = StyleSheet.create({
   categoryCard: {
-    height: 130,
-    width: 170,
+    height: 120,
+    width: 180,
     backgroundColor: '#4287f5',
     display: 'flex',
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
     flexDirection: 'column',
-    gap: 1,
-    marginRight: 13,
+    gap: 2,
+    marginRight: 14,
     justifyContent: 'flex-end',
     alignItems: 'baseline',
   },
   img: {
-    height:40,
-    width:40,
-    borderRadius:2,
+    height: 40,
+    width: 40,
+    borderRadius: 2,
   },
   categoryName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
   },
   cardComponentContainer: {
-    marginVertical: 10,
-    display:'flex',
-    flex:1,
+    marginTop: 10,
+    display: 'flex',
   },
 });
