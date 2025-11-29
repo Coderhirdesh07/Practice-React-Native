@@ -9,94 +9,12 @@ import FavouriteScreen from './screens/FavouriteScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
-// const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
-// function BottomTabsScreen(){
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarShowLabel: true,
-//       }}
-//     >
-//       <Tab.Screen
-//         name="Home"
-//         component={HomeScreen}
-//         options={{
-//           title: 'Home',
-//           tabBarIcon: ({ focused }) => (
-//             <Image
-//               source={HomeIcon}
-//               style={{
-//                 width: 24,
-//                 height: 24,
-//                 tintColor: focused ? '#007AFF' : '#8e8e93',
-//               }}
-//             />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Search"
-//         component={SearchScreen}
-//         options={{
-//           title: 'Search',
-//           tabBarIcon: ({ focused }) => (
-//             <Image
-//               source={SearchIcon}
-//               style={{
-//                 width: 24,
-//                 height: 24,
-//                 tintColor: focused ? '#007AFF' : '#8e8e93',
-//               }}
-//             />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Profile"
-//         component={ProfileScreen}
-//         options={{
-//           title: 'Profile',
-//           tabBarIcon: ({ focused }) => (
-//             <Image
-//               source={ProfileIcon}
-//               style={{
-//                 width: 24,
-//                 height: 24,
-//                 tintColor: focused ? '#007AFF' : '#8e8e93',
-//               }}
-//             />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   )
-// }
+
+const Tab = createBottomTabNavigator();
 
 export default function RootLayout() {
   return (
-    // <NavigationContainer>
-    //     <Stack.Navigator
-    //       initialRouteName='Splash'
-    //       screenOptions={{headerShown:false}}>
-    //       <Stack.Screen
-    //       name="Splash"
-    //       component={SplashScreen}
-    //       options={{headerShown:false}}
-    //       >
-    //       </Stack.Screen>
-
-    //       <Stack.Screen
-    //       name="Main"
-    //       component={BottomTabsScreen}
-    //       options={{headerShown:false}}
-    //       >
-    //       </Stack.Screen>
-    //     </Stack.Navigator>
-    // </NavigationContainer>
-
     <Tab.Navigator
       screenOptions={{
         headerShown: false,

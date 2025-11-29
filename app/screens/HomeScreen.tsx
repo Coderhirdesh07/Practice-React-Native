@@ -26,6 +26,7 @@ const HomeScreen = () => {
     };
     fetchData();
   });
+  
 
   return (
     <View>

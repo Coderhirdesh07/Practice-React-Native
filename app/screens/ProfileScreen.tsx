@@ -1,11 +1,16 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView,View,Button, StyleSheet } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import ProfileComponent from '../components/ProfileComponent';
 import { country, language } from '../constants/dropdown';
+
 const ProfileScreen = () => {
+  const handleButtonOnPress = () =>{
+    
+  }
   return (
-    <ScrollView
+    <View>
+       <ScrollView
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       horizontal={false}
@@ -39,9 +44,14 @@ const ProfileScreen = () => {
        labelField="value"
        valueField="label"
        />
+    </ScrollView> 
 
+  
+    <Button title="SAVE" onPress={handleButtonOnPress}/>
+    
+    </View>
+   
 
-    </ScrollView>
   );
 };
 
