@@ -6,10 +6,9 @@ import HomeIcon from '../assets/icons/icons8-home-100.png';
 import ProfileIcon from '../assets/icons/icons8-profile-100.png';
 import SearchIcon from '../assets/icons/icons8-search-100.png';
 import FavouriteScreen from './screens/FavouriteScreen';
-import HomeScreen from './screens/HomeScreen';
+import Login from './screens/Login';
 import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +22,7 @@ export default function RootLayout() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={Login}
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
