@@ -28,7 +28,7 @@ const HomeScreen = () => {
   });
 
   return (
-    <View>
+    <View style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal={true}
@@ -61,14 +61,13 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex:1,
-  //   backgroundColor:'#CD1C18',
-  //   marginTop:20,
-  // },
+  container: {
+    backgroundColor: '#9efff0',
+  },
   outer: {
     display: 'flex',
     flexDirection: 'column',
+    padding: 4,
   },
   title: {
     fontSize: 25,
@@ -78,10 +77,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexDirection: 'row',
-    gap: 5,
-    marginTop: 20,
+    gap: 8,
+    marginTop: 22,
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginBottom: 8,
+    paddingVertical: 30,
+    marginBottom: 18,
   },
 });

@@ -5,6 +5,7 @@ const FavouriteScreen = () => {
   return (
     <View>
       <Text>FavouriteScreen</Text>
+      {/* <NewsItemOfflineComponent/> */}
     </View>
   );
 };

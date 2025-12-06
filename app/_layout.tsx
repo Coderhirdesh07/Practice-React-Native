@@ -1,14 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import favourite from '../assets/icons/icons8-favourite-100.png';
 import HomeIcon from '../assets/icons/icons8-home-100.png';
 import SearchIcon from '../assets/icons/icons8-search-100.png';
 import Profile from '../assets/icons/user.png';
 import FavouriteScreen from './screens/FavouriteScreen';
+import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
-import SignUp from './screens/SignUp';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,52 +22,75 @@ export default function RootLayout() {
     >
       <Tab.Screen
         name="Home"
-        component={SignUp}
+        component={HomeScreen}
         options={{
-          title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={HomeIcon}
+            <View
               style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? '#007AFF' : '#8e8e93',
+                padding: 6,
+                borderRadius: 20,
+                backgroundColor: focused ? '#007AFF' : 'transparent',
               }}
-            />
+            >
+              <Image
+                source={HomeIcon}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? 'white' : '#8e8e93',
+                }}
+              />
+            </View>
           ),
         }}
       />
+
       <Tab.Screen
         name="Search"
         component={SearchScreen}
         options={{
-          title: 'Search',
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={SearchIcon}
+            <View
               style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? '#007AFF' : '#8e8e93',
+                padding: 6,
+                borderRadius: 20,
+                backgroundColor: focused ? '#007AFF' : 'transparent',
               }}
-            />
+            >
+              <Image
+                source={SearchIcon}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? 'white' : '#8e8e93',
+                }}
+              />
+            </View>
           ),
         }}
       />
+
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: 'Profile',
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={Profile}
+            <View
               style={{
-                width: 24,
-                height: 24,
-                tintColor: focused ? '#007AFF' : '#8e8e93',
+                padding: 6,
+                borderRadius: 20,
+                backgroundColor: focused ? '#007AFF' : 'transparent',
               }}
-            />
+            >
+              <Image
+                source={Profile}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? 'white' : '#8e8e93',
+                }}
+              />
+            </View>
           ),
         }}
       />
@@ -76,19 +99,26 @@ export default function RootLayout() {
         name="Favourite"
         component={FavouriteScreen}
         options={{
-          title: 'Favourite',
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={favourite}
+            <View
               style={{
-                height: 24,
-                width: 24,
-                tintColor: focused ? '#007AFF' : '#8e8e93',
+                padding: 6,
+                borderRadius: 20,
+                backgroundColor: focused ? '#007AFF' : 'transparent',
               }}
-            />
+            >
+              <Image
+                source={favourite}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? 'white' : '#8e8e93',
+                }}
+              />
+            </View>
           ),
         }}
-      ></Tab.Screen>
+      />
     </Tab.Navigator>
   );
 }
