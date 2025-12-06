@@ -3,12 +3,12 @@ import React from 'react';
 import { Image } from 'react-native';
 import favourite from '../assets/icons/icons8-favourite-100.png';
 import HomeIcon from '../assets/icons/icons8-home-100.png';
-import ProfileIcon from '../assets/icons/icons8-profile-100.png';
 import SearchIcon from '../assets/icons/icons8-search-100.png';
+import Profile from '../assets/icons/user.png';
 import FavouriteScreen from './screens/FavouriteScreen';
-import Login from './screens/Login';
 import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
+import SignUp from './screens/SignUp';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ export default function RootLayout() {
     >
       <Tab.Screen
         name="Home"
-        component={Login}
+        component={SignUp}
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
@@ -61,7 +61,7 @@ export default function RootLayout() {
           title: 'Profile',
           tabBarIcon: ({ focused }) => (
             <Image
-              source={ProfileIcon}
+              source={Profile}
               style={{
                 width: 24,
                 height: 24,
