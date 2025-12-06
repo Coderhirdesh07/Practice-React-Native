@@ -45,8 +45,6 @@ const HomeScreen = () => {
         ))}
       </ScrollView>
 
-      {/* <Text style={styles.title}>HEADLINES</Text>
-        <TopHeadlineComponent/> */}
 
       <Text style={styles.title}>TOP HEADLINES</Text>
       <FlatList
@@ -62,12 +60,12 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#9efff0',
+    backgroundColor:'#9efff0',
   },
   outer: {
     display: 'flex',
     flexDirection: 'column',
-    padding: 4,
+    padding:4,
   },
   title: {
     fontSize: 25,
