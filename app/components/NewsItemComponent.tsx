@@ -10,6 +10,10 @@ interface NewsItemProps {
 
 const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
   const [favourite, setFavourite] = useState<boolean>(false);
+  const handleOnPress = (favourite: boolean) => {
+    setFavourite(!favourite);
+    // we will store the artilce in db;
+  };
 
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.8}>
@@ -39,7 +43,7 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
 
       {/* Favourite Button */}
       <TouchableOpacity
-        onPress={() => setFavourite(!favourite)}
+        onPress={() => handleOnPress(!favourite)}
         style={styles.favButton}
       >
         <Image

@@ -61,7 +61,7 @@ export async function handleApiTopHeadlinesEndpoint(): Promise<NewsResponse | nu
       return data;
     }
   } catch (error) {
-    console.log('APi Fetch Error');
+    console.log('API Fetch Error');
     return null;
   }
 }

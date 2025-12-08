@@ -40,13 +40,14 @@ const HomeScreen = () => {
             key={item.name}
             heading={item.name}
             image={item.icon}
+            backgroundColor={item.colour ? '#4287f5' : ''}
             onClick={() => categorySelection(item.name)}
           />
         ))}
       </ScrollView>
 
-
       <Text style={styles.title}>TOP HEADLINES</Text>
+
       <FlatList
         data={response?.articles}
         keyExtractor={(item, index) => item.url || index.toString()}
@@ -60,12 +61,12 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'#9efff0',
+    backgroundColor: '#9efff0',
   },
   outer: {
     display: 'flex',
     flexDirection: 'column',
-    padding:4,
+    padding: 4,
   },
   title: {
     fontSize: 25,

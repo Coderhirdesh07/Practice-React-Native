@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Article } from '../constants/data';
 
-interface NewsItemProps {
+interface NewsItemOfflineProps {
   newsItemData: Article;
 }
 
-const NewsItemOfflineComponent = ({ newsItemData }: NewsItemProps) => {
+const NewsItemOfflineComponent = ({ newsItemData }: NewsItemOfflineProps) => {
   function helper(name: string) {
     alert(`You pressed ${name}`);
   }

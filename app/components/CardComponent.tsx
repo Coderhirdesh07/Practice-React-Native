@@ -12,11 +12,22 @@ interface CardComponentProps {
   heading: string;
   image: ImageSourcePropType;
   onClick?: (name: string) => void;
+  backgroundColor?: string;
 }
 
-const CardComponent = ({ heading, image, onClick }: CardComponentProps) => {
+const CardComponent = ({
+  heading,
+  image,
+  onClick,
+  backgroundColor,
+}: CardComponentProps) => {
   return (
-    <View style={styles.cardComponentContainer}>
+    <View
+      style={[
+        styles.cardComponentContainer,
+        { backgroundColor: backgroundColor },
+      ]}
+    >
       <TouchableOpacity
         onPress={() => onClick?.(heading)}
         style={styles.categoryCard}
@@ -34,7 +45,6 @@ const styles = StyleSheet.create({
   categoryCard: {
     height: 120,
     width: 180,
-    backgroundColor: '#4287f5',
     display: 'flex',
     padding: 10,
     borderRadius: 5,

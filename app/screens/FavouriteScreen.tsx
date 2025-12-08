@@ -1,11 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, FlatList, Text, View } from 'react-native';
 
 const FavouriteScreen = () => {
   return (
     <View>
       <Text>FavouriteScreen</Text>
-      {/* <NewsItemOfflineComponent/> */}
+      {/* <FlatList
+        data={response?.articles}
+        keyExtractor={(item, index) => item.url || index.toString()}
+        renderItem={({ item }) => <NewsItemOfflineComponent newsItemData={item} />}
+      /> */}
     </View>
   );
 };
