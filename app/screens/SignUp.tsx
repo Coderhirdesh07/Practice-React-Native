@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import authService from '../database/appwrite';
-import { navigate } from 'expo-router/build/global-state/routing';
+import { Alert } from 'react-native';
+import { useForm } from 'react-hook-form';
+
 const SignUp = () => {
   const initialFormState = {
     fullName: '',
@@ -11,19 +13,27 @@ const SignUp = () => {
     confirmPassword: '',
   };
 
-  const handleOnChange = (e: any) => {
-    const { name, value } = e.target;
+  const { handleSubmit, register } = useForm();
+  const [form, setForm] = useState(initialFormState);
+
+  const handleOnChange = (name: string, value: string) => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const [form, setForm] = useState(initialFormState);
   const handleSignUp = async (form: any) => {
-    const { fullName, email, password } = form;
-    const user = await authService.handleUserRegistration(
-      email,
-      password,
-      fullName,
-    );
+    const { fullName, email, password, confirmPassword } = form;
+    if (!fullName || !email || !password || !confirmPassword) {
+      return Alert.alert('Error', 'All fields are required');
+    }
+
+    if (password !== confirmPassword) {
+      return Alert.alert('Error', 'Passwords do not match');
+    }
+
+    if (password.length < 6) {
+      return Alert.alert('Error', 'Password must be at least 6 characters');
+    }
+    await authService.handleUserRegistration(email, password, fullName);
   };
   return (
     <SafeAreaView>
@@ -32,10 +42,9 @@ const SignUp = () => {
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Full Name:</Text>
           <TextInput
-            accessibilityRole="search"
             style={styles.input}
-            onChangeText={handleOnChange}
-            value={form.email}
+            onChangeText={text => handleOnChange('fullName', text)}
+            value={form.fullName}
             placeholder={'Enter Your Full Name'}
             keyboardType="default"
           />
@@ -46,7 +55,7 @@ const SignUp = () => {
           <TextInput
             accessibilityRole="search"
             style={styles.input}
-            onChangeText={handleOnChange}
+            onChangeText={text => handleOnChange('email', text)}
             value={form.email}
             placeholder={'Enter Your Email'}
             keyboardType="default"
@@ -58,9 +67,10 @@ const SignUp = () => {
           <TextInput
             accessibilityRole="search"
             style={styles.input}
-            onChangeText={handleOnChange}
+            onChangeText={text => handleOnChange('password', text)}
             value={form.password}
             placeholder={'Enter Your Password'}
+            secureTextEntry
             keyboardType="default"
           />
         </View>
@@ -68,15 +78,18 @@ const SignUp = () => {
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Confirm Password:</Text>
           <TextInput
-            accessibilityRole="search"
             style={styles.input}
-            onChangeText={handleOnChange}
+            onChangeText={text => handleOnChange('confirmPassword', text)}
             value={form.confirmPassword}
             placeholder={'Confirm Password'}
             keyboardType="default"
+            secureTextEntry
           />
         </View>
-        <Button title="Sign UP" onPress={handleSignUp} />
+        <Button
+          title="Sign UP"
+          onPress={handleSubmit(() => handleSignUp(form))}
+        />
       </View>
     </SafeAreaView>
   );
@@ -94,7 +107,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontWeight: 'semibold',
+    fontWeight: '300',
   },
   labelContainer: {
     display: 'flex',

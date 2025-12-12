@@ -3,6 +3,7 @@ import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icon from '../../assets/icons/icons8-profile-100.png';
 import authService from '../database/appwrite';
+
 const Login = () => {
   const initialFormState = {
     email: '',
@@ -10,13 +11,12 @@ const Login = () => {
   };
   const [form, setForm] = useState(initialFormState);
 
-  const handleLogin = async (form: any) => {
+  const handleLogin = async () => {
     const { email, password } = form;
     const user = await authService.handleUserLogin(email, password);
   };
 
-  const handleOnChange = (e: any) => {
-    const { name, value } = e.target;
+  const handleOnChange = (name: string, value: string) => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
   return (
@@ -30,19 +30,18 @@ const Login = () => {
         <TextInput
           accessibilityRole="search"
           style={styles.input}
-          onChangeText={handleOnChange}
-          value={form.password}
-          placeholder={'Enter Your Password'}
+          onChangeText={text => handleOnChange('email', text)}
+          value={form.email}
+          placeholder={'Enter Your Email'}
           keyboardType="default"
         />
 
         <TextInput
-          accessibilityRole="search"
           style={styles.input}
-          onChangeText={handleOnChange}
-          value={form.email}
-          placeholder={'Enter Your Email'}
-          keyboardType="default"
+          onChangeText={text => handleOnChange('email', text)}
+          value={form.password}
+          placeholder={'Enter Your Password'}
+          secureTextEntry
         />
         <Button title="Login" onPress={handleLogin} />
       </View>

@@ -75,44 +75,37 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 3 },
   },
-
   newsImage: {
     width: 90,
     height: 90,
     borderRadius: 10,
   },
-
   content: {
     flex: 1,
     justifyContent: 'space-between',
     paddingRight: 40,
   },
-
   newsTitle: {
     fontSize: 16,
     fontWeight: '700',
     color: '#111',
   },
-
   newsDescription: {
     fontSize: 13,
     color: '#555',
     marginTop: 4,
   },
-
   sourceText: {
     fontSize: 12,
     color: '#777',
     marginTop: 8,
   },
-
   favButton: {
     position: 'absolute',
     right: 10,
     top: 10,
     padding: 5,
   },
-
   favIcon: {
     width: 28,
     height: 28,

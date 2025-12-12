@@ -12,20 +12,20 @@ const HomeScreen = () => {
   const categorySelection = (name: string) => {
     setCategory(name);
   };
+  const fetchData = async () => {
+    try {
+      const data = await handleApiArticlesEndpoint('bitcoin');
+      if (data) {
+        setResponse(data);
+      } else setResponse(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await handleApiArticlesEndpoint('bitcoin');
-        if (data) {
-          setResponse(data);
-        } else setResponse(null);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchData();
-  });
+  }, []);
   // for web view reference
   //   <WebView
   //   style={styles.container}
