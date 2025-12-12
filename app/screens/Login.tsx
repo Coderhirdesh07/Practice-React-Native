@@ -2,10 +2,23 @@ import React, { useState } from 'react';
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icon from '../../assets/icons/icons8-profile-100.png';
+import authService from '../database/appwrite';
 const Login = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  function handleLogin() {}
+  const initialFormState = {
+    email: '',
+    password: '',
+  };
+  const [form, setForm] = useState(initialFormState);
+
+  const handleLogin = async (form: any) => {
+    const { email, password } = form;
+    const user = await authService.handleUserLogin(email, password);
+  };
+
+  const handleOnChange = (e: any) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
@@ -17,8 +30,8 @@ const Login = () => {
         <TextInput
           accessibilityRole="search"
           style={styles.input}
-          onChangeText={setPassword}
-          value={password}
+          onChangeText={handleOnChange}
+          value={form.password}
           placeholder={'Enter Your Password'}
           keyboardType="default"
         />
@@ -26,8 +39,8 @@ const Login = () => {
         <TextInput
           accessibilityRole="search"
           style={styles.input}
-          onChangeText={setEmail}
-          value={email}
+          onChangeText={handleOnChange}
+          value={form.email}
           placeholder={'Enter Your Email'}
           keyboardType="default"
         />

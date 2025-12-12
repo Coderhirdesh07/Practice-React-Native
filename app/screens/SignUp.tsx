@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import authService from '../database/appwrite';
+import { navigate } from 'expo-router/build/global-state/routing';
 const SignUp = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const handleSignUp = () => {};
+  const initialFormState = {
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  const handleOnChange = (e: any) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const [form, setForm] = useState(initialFormState);
+  const handleSignUp = async (form: any) => {
+    const { fullName, email, password } = form;
+    const user = await authService.handleUserRegistration(
+      email,
+      password,
+      fullName,
+    );
+  };
   return (
     <SafeAreaView>
       <Text style={styles.heading}>SignUp</Text>
@@ -17,8 +34,8 @@ const SignUp = () => {
           <TextInput
             accessibilityRole="search"
             style={styles.input}
-            onChangeText={setName}
-            value={name}
+            onChangeText={handleOnChange}
+            value={form.email}
             placeholder={'Enter Your Full Name'}
             keyboardType="default"
           />
@@ -29,8 +46,8 @@ const SignUp = () => {
           <TextInput
             accessibilityRole="search"
             style={styles.input}
-            onChangeText={setEmail}
-            value={email}
+            onChangeText={handleOnChange}
+            value={form.email}
             placeholder={'Enter Your Email'}
             keyboardType="default"
           />
@@ -41,8 +58,8 @@ const SignUp = () => {
           <TextInput
             accessibilityRole="search"
             style={styles.input}
-            onChangeText={setPassword}
-            value={password}
+            onChangeText={handleOnChange}
+            value={form.password}
             placeholder={'Enter Your Password'}
             keyboardType="default"
           />
@@ -53,8 +70,8 @@ const SignUp = () => {
           <TextInput
             accessibilityRole="search"
             style={styles.input}
-            onChangeText={setConfirmPassword}
-            value={confirmPassword}
+            onChangeText={handleOnChange}
+            value={form.confirmPassword}
             placeholder={'Confirm Password'}
             keyboardType="default"
           />

@@ -10,11 +10,9 @@ class AuthService {
   async handleUserRegistration(
     email: string,
     password: string,
-    firstName: string,
-    lastName: string,
+    fullName: string,
   ) {
     try {
-      const fullName = `${firstName} ${lastName}`;
       const userAccount = await this.account.create(
         ID.unique(),
         email,
@@ -22,7 +20,7 @@ class AuthService {
         fullName,
       );
       if (!userAccount) {
-        return this.handleUserLogin({ email, password });
+        return this.handleUserLogin(email, password);
       } else {
         return userAccount;
       }
