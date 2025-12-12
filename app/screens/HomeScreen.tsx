@@ -26,6 +26,11 @@ const HomeScreen = () => {
     };
     fetchData();
   });
+  // for web view reference
+  //   <WebView
+  //   style={styles.container}
+  //   source={{ uri: 'https://expo.dev' }}
+  // />
 
   return (
     <View style={styles.container}>

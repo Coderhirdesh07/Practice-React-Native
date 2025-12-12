@@ -10,14 +10,19 @@ interface NewsItemProps {
 
 const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
   const [favourite, setFavourite] = useState<boolean>(false);
+
   const handleOnPress = (favourite: boolean) => {
     setFavourite(!favourite);
     // we will store the artilce in db;
   };
+  const handleWebView = () => {};
 
   return (
-    <TouchableOpacity style={styles.card} activeOpacity={0.8}>
-      {/* Image */}
+    <TouchableOpacity
+      style={styles.card}
+      onPress={handleWebView}
+      activeOpacity={0.8}
+    >
       {newsItemData.urlToImage ? (
         <Image
           source={{ uri: newsItemData.urlToImage }}
@@ -27,7 +32,6 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
         <View style={[styles.newsImage, { backgroundColor: '#dcdcdc' }]} />
       )}
 
-      {/* Right Side Content */}
       <View style={styles.content}>
         <Text numberOfLines={2} style={styles.newsTitle}>
           {newsItemData.title}
@@ -41,7 +45,6 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
         </Text>
       </View>
 
-      {/* Favourite Button */}
       <TouchableOpacity
         onPress={() => handleOnPress(!favourite)}
         style={styles.favButton}
@@ -66,8 +69,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
     marginTop: 12,
     gap: 12,
-
-    // shadow
     elevation: 3,
     shadowColor: '#000',
     shadowOpacity: 0.15,
