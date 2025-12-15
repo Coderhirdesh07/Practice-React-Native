@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  Linking,
+  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import favourite1 from '../../assets/icons/heart.png'; // filled
 import favourite2 from '../../assets/icons/love.png'; // outline
 import { Article } from '../constants/data';
@@ -13,9 +22,24 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
 
   const handleOnPress = (favourite: boolean) => {
     setFavourite(!favourite);
-    // we will store the artilce in db;
   };
-  const handleWebView = () => {};
+
+  const handleWebView = async () => {
+    const url = newsItemData.url;
+
+    if (!url) {
+      Alert.alert('Invalid URL');
+      return;
+    }
+
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      Alert.alert('Cannot open this link');
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -45,15 +69,15 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
         </Text>
       </View>
 
-      <TouchableOpacity
-        onPress={() => handleOnPress(!favourite)}
+      <Pressable
+        onPress={() => handleOnPress(favourite)}
         style={styles.favButton}
       >
         <Image
           source={favourite ? favourite1 : favourite2}
           style={styles.favIcon}
         />
-      </TouchableOpacity>
+      </Pressable>
     </TouchableOpacity>
   );
 };

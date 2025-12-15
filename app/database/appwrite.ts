@@ -1,9 +1,12 @@
 import { Client, Account, ID } from 'appwrite';
+import { DATABASE_CONFIGURATION } from '../config/index';
 class AuthService {
   client: Client = new Client();
   account: Account;
   constructor() {
-    this.client.setEndpoint('').setProject('');
+    this.client
+      .setEndpoint(DATABASE_CONFIGURATION.ENDPOINT)
+      .setProject(DATABASE_CONFIGURATION.PROJECT_ID);
     this.account = new Account(this.client);
   }
 

@@ -8,26 +8,26 @@ export const cardCategory = [
   {
     name: 'General',
     icon: general,
-    colour: '',
+    colour: '#4B7BEC', // nice blue
   },
   {
     name: 'Business',
     icon: bonds,
-    colour: '',
+    colour: '#FFA500', // vibrant orange
   },
   {
     name: 'Sports',
     icon: trophy,
-    colour: '',
+    colour: '#34C759', // fresh green
   },
   {
     name: 'Entertainment',
     icon: movie,
-    colour: '',
+    colour: '#FF5E5B', // soft red
   },
   {
     name: 'Health',
     icon: health,
-    colour: '',
+    colour: '#9B59B6', // purple
   },
 ];

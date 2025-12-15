@@ -9,10 +9,10 @@ const ProfileScreen = () => {
   const [region, setregion] = useState<string>('us');
   const [lang, setLang] = useState<string>('general');
 
-  const handleButtonOnPress = () => {
-    setData('country', region);
-    setData('language', lang);
-  };
+  // const handleButtonOnPress = () => {
+  //   setData('country', region);
+  //   setData('language', lang);
+  // };
 
   return (
     <View>
@@ -44,9 +44,9 @@ const ProfileScreen = () => {
           maxHeight={300}
           labelField="value"
           valueField="label"
-          onChange={item => {
-            setregion(item.value);
-          }}
+          // onChange={item => {
+          //   setregion(item.value);
+          // }}
         />
 
         <Dropdown
@@ -56,9 +56,9 @@ const ProfileScreen = () => {
           maxHeight={320}
           labelField="value"
           valueField="label"
-          onChange={item => {
-            setLang(item.value);
-          }}
+          // onChange={item => {
+          //   setLang(item.value);
+          // }}
         />
       </ScrollView>
 

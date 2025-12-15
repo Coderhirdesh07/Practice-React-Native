@@ -5,6 +5,7 @@ import NewsItemComponent from '../components/NewsItemComponent';
 import { cardCategory } from '../constants/constants';
 import { NewsApiData } from '../constants/data';
 import { handleApiArticlesEndpoint } from '../networkutils/index';
+
 const HomeScreen = () => {
   const [response, setResponse] = useState<NewsApiData | null>(null);
   const [category, setCategory] = useState<string>('');
@@ -12,6 +13,7 @@ const HomeScreen = () => {
   const categorySelection = (name: string) => {
     setCategory(name);
   };
+
   const fetchData = async () => {
     try {
       const data = await handleApiArticlesEndpoint('bitcoin');
@@ -26,11 +28,6 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  // for web view reference
-  //   <WebView
-  //   style={styles.container}
-  //   source={{ uri: 'https://expo.dev' }}
-  // />
 
   return (
     <View style={styles.container}>
@@ -45,7 +42,7 @@ const HomeScreen = () => {
             key={item.name}
             heading={item.name}
             image={item.icon}
-            backgroundColor={item.colour ? '#4287f5' : ''}
+            backgroundColor={item.colour}
             onClick={() => categorySelection(item.name)}
           />
         ))}
@@ -66,12 +63,14 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#9efff0',
+    flex: 1,
+    backgroundColor: '#f2f2f2',
+    paddingTop: 10,
   },
   outer: {
     display: 'flex',
     flexDirection: 'column',
-    padding: 4,
+    padding: 5,
   },
   title: {
     fontSize: 25,
@@ -81,10 +80,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexDirection: 'row',
-    gap: 8,
     marginTop: 22,
     paddingHorizontal: 10,
-    paddingVertical: 30,
+    paddingBottom: 30,
     marginBottom: 18,
   },
 });
