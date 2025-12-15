@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View, Button, StyleSheet } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import ProfileComponent from '../components/ProfileComponent';
 import { country, language } from '../constants/dropdown';
-import { setData } from '../utils/storage.util';
+import { setItemToStorage, retrieveItemFromStorage } from '../database/storage';
 
 const ProfileScreen = () => {
   const [region, setregion] = useState<string>('us');
   const [lang, setLang] = useState<string>('general');
+  const handleStoredData = async () => {
+    try {
+      const reg = await retrieveItemFromStorage('country');
+      const lan = await retrieveItemFromStorage('language');
+      setregion(reg ?? 'us');
+      setLang(lan ?? 'en');
+    } catch (error) {
+      console.log('cannot fetch data from local storage');
+    }
+  };
+  useEffect(() => {
+    handleStoredData();
+  });
 
-  // const handleButtonOnPress = () => {
-  //   setData('country', region);
-  //   setData('language', lang);
-  // };
+  const handleButtonOnPress = () => {
+    setItemToStorage('country', region);
+    setItemToStorage('language', lang);
+  };
 
   return (
     <View>
@@ -25,17 +38,15 @@ const ProfileScreen = () => {
         bounces={false}
         style={styles.container}
       >
-        <ProfileComponent title={'Profile'} />
-
-        {/* <ProfileComponent title={'My Wallet'} />
-      <ProfileComponent title={'My Post'} />
-      <ProfileComponent title={'Boost Your Post'} />
-      <ProfileComponent title={'Notification'} />
-      <ProfileComponent title={'Terms And Conditions'} />
-      <ProfileComponent title={'About'} />
-      <ProfileComponent title={'Watch Ads And Earn'} />
-      <ProfileComponent title={'Refer and Earn'} />
-      <ProfileComponent title={'Logout'} /> */}
+        <ProfileComponent title={'My Wallet'} />
+        <ProfileComponent title={'My Post'} />
+        <ProfileComponent title={'Boost Your Post'} />
+        <ProfileComponent title={'Notification'} />
+        <ProfileComponent title={'Terms And Conditions'} />
+        <ProfileComponent title={'About'} />
+        <ProfileComponent title={'Watch Ads And Earn'} />
+        <ProfileComponent title={'Refer and Earn'} />
+        <ProfileComponent title={'Logout'} />
 
         <Dropdown
           style={styles.dropdown}
@@ -44,9 +55,9 @@ const ProfileScreen = () => {
           maxHeight={300}
           labelField="value"
           valueField="label"
-          // onChange={item => {
-          //   setregion(item.value);
-          // }}
+          onChange={item => {
+            setregion(item.value);
+          }}
         />
 
         <Dropdown
@@ -56,9 +67,9 @@ const ProfileScreen = () => {
           maxHeight={320}
           labelField="value"
           valueField="label"
-          // onChange={item => {
-          //   setLang(item.value);
-          // }}
+          onChange={item => {
+            setLang(item.value);
+          }}
         />
       </ScrollView>
 
