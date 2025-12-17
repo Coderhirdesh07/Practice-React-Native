@@ -1,39 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import authService from '../database/appwrite';
-import { Alert } from 'react-native';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 const SignUp = () => {
-  const initialFormState = {
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  };
+  const { handleSubmit, control } = useForm();
 
-  const { handleSubmit, register } = useForm();
-  const [form, setForm] = useState(initialFormState);
+  const handleSignUp = async (data: any) => {
+    try {
+      const { fullName, email, password } = data;
+      if (!fullName || !email || !password) {
+        return alert('Error All fields are required');
+      }
 
-  const handleOnChange = (name: string, value: string) => {
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSignUp = async (form: any) => {
-    const { fullName, email, password, confirmPassword } = form;
-    if (!fullName || !email || !password || !confirmPassword) {
-      return Alert.alert('Error', 'All fields are required');
+      if (password.length < 6) {
+        return alert('Error Password must be at least 6 characters');
+      }
+      await authService.handleUserRegistration(email, password, fullName);
+    } catch (error) {
+      console.log(error);
     }
-
-    if (password !== confirmPassword) {
-      return Alert.alert('Error', 'Passwords do not match');
-    }
-
-    if (password.length < 6) {
-      return Alert.alert('Error', 'Password must be at least 6 characters');
-    }
-    await authService.handleUserRegistration(email, password, fullName);
   };
   return (
     <SafeAreaView>
@@ -41,37 +28,54 @@ const SignUp = () => {
       <View style={styles.inputContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Full Name:</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => handleOnChange('fullName', text)}
-            value={form.fullName}
-            placeholder={'Enter Your Full Name'}
-            keyboardType="default"
+          <Controller
+            name="fullName"
+            rules={{ required: 'Name is required field' }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                onChangeText={onChange}
+                value={value}
+                placeholder={'Enter Your Full Name'}
+                keyboardType="default"
+              />
+            )}
           />
         </View>
 
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Email:</Text>
-          <TextInput
-            accessibilityRole="search"
-            style={styles.input}
-            onChangeText={text => handleOnChange('email', text)}
-            value={form.email}
-            placeholder={'Enter Your Email'}
-            keyboardType="default"
+          <Controller
+            control={control}
+            name="email"
+            rules={{ required: 'Email is required' }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Your Email"
+                value={value}
+                onChangeText={onChange}
+                keyboardType="email-address"
+              />
+            )}
           />
         </View>
 
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Password:</Text>
-          <TextInput
-            accessibilityRole="search"
-            style={styles.input}
-            onChangeText={text => handleOnChange('password', text)}
-            value={form.password}
-            placeholder={'Enter Your Password'}
-            secureTextEntry
-            keyboardType="default"
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: 'Password is required' }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                onChangeText={onChange}
+                value={value}
+                placeholder={'Enter Your Password'}
+              />
+            )}
           />
         </View>
 
@@ -79,17 +83,12 @@ const SignUp = () => {
           <Text style={styles.label}>Confirm Password:</Text>
           <TextInput
             style={styles.input}
-            onChangeText={text => handleOnChange('confirmPassword', text)}
-            value={form.confirmPassword}
             placeholder={'Confirm Password'}
             keyboardType="default"
             secureTextEntry
           />
         </View>
-        <Button
-          title="Sign UP"
-          onPress={handleSubmit(() => handleSignUp(form))}
-        />
+        <Button title="Sign UP" onPress={handleSubmit(handleSignUp)} />
       </View>
     </SafeAreaView>
   );

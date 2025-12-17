@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icon from '../../assets/icons/icons8-profile-100.png';
+import { useForm, Controller } from 'react-hook-form';
 import authService from '../database/appwrite';
-
 const Login = () => {
-  const initialFormState = {
-    email: '',
-    password: '',
+  const { handleSubmit, control } = useForm();
+  const onSubmit = async (data: any) => {
+    try {
+      const { email, password } = data;
+      await authService.handleUserLogin(email, password);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
-  const [form, setForm] = useState(initialFormState);
 
-  const handleLogin = async () => {
-    const { email, password } = form;
-    const user = await authService.handleUserLogin(email, password);
-  };
-
-  const handleOnChange = (name: string, value: string) => {
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
@@ -27,23 +23,35 @@ const Login = () => {
       <Text style={styles.heading}>Login</Text>
 
       <View style={styles.inputContainer}>
-        <TextInput
-          accessibilityRole="search"
-          style={styles.input}
-          onChangeText={text => handleOnChange('email', text)}
-          value={form.email}
-          placeholder={'Enter Your Email'}
-          keyboardType="default"
+        <Controller
+          control={control}
+          name="email"
+          rules={{ required: 'Email is required' }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Your Email"
+              value={value}
+              onChangeText={onChange}
+              keyboardType="email-address"
+            />
+          )}
         />
-
-        <TextInput
-          style={styles.input}
-          onChangeText={text => handleOnChange('email', text)}
-          value={form.password}
-          placeholder={'Enter Your Password'}
-          secureTextEntry
+        <Controller
+          name="password"
+          control={control}
+          rules={{ required: 'Password is required' }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              onChangeText={onChange}
+              value={value}
+              placeholder={'Enter Your Password'}
+            />
+          )}
         />
-        <Button title="Login" onPress={handleLogin} />
+        <Button title="Login" onPress={handleSubmit(onSubmit)} />
       </View>
     </SafeAreaView>
   );
