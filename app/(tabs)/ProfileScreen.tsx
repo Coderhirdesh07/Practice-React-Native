@@ -15,7 +15,7 @@ const ProfileScreen = () => {
       setregion(reg ?? 'us');
       setLang(lan ?? 'en');
     } catch (error) {
-      console.log('cannot fetch data from local storage');
+      console.log(` ${error}  + cannot fetch data from local storage`);
     }
   };
   useEffect(() => {
@@ -30,7 +30,6 @@ const ProfileScreen = () => {
   return (
     <View>
       <Text style={styles.heading}>Profile</Text>
-
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

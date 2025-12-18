@@ -4,12 +4,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import icon from '../../assets/icons/icons8-profile-100.png';
 import { useForm, Controller } from 'react-hook-form';
 import authService from '../database/appwrite';
+import { useRouter } from 'expo-router';
+
 const Login = () => {
   const { handleSubmit, control } = useForm();
-  const onSubmit = async (data: any) => {
+  const router = useRouter();
+  const onSubmit = async (data: { email: string; password: string }) => {
     try {
-      const { email, password } = data;
-      await authService.handleUserLogin(email, password);
+      await authService.handleUserLogin(data.email, data.password);
+      router.replace('/home');
     } catch (error) {
       console.error('Login failed:', error);
     }

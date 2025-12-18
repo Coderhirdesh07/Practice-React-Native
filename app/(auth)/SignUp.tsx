@@ -2,22 +2,33 @@ import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import authService from '../database/appwrite';
-import { useForm, Controller } from 'react-hook-form';
-
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'expo-router';
 const SignUp = () => {
-  const { handleSubmit, control } = useForm();
+  type SignUpFormData = {
+    fullName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  };
+  const router = useRouter();
 
-  const handleSignUp = async (data: any) => {
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { isSubmitting },
+  } = useForm<SignUpFormData>();
+  const password = watch('password');
+
+  const handleSignUp: SubmitHandler<SignUpFormData> = async data => {
     try {
-      const { fullName, email, password } = data;
-      if (!fullName || !email || !password) {
-        return alert('Error All fields are required');
-      }
-
-      if (password.length < 6) {
-        return alert('Error Password must be at least 6 characters');
-      }
-      await authService.handleUserRegistration(email, password, fullName);
+      await authService.handleUserRegistration(
+        data.email,
+        data.password,
+        data.fullName,
+      );
+      router.replace('/home');
     } catch (error) {
       console.log(error);
     }
@@ -29,6 +40,7 @@ const SignUp = () => {
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Full Name:</Text>
           <Controller
+            control={control}
             name="fullName"
             rules={{ required: 'Name is required field' }}
             render={({ field: { onChange, value } }) => (
@@ -66,7 +78,13 @@ const SignUp = () => {
           <Controller
             name="password"
             control={control}
-            rules={{ required: 'Password is required' }}
+            rules={{
+              required: 'Password is required',
+              minLength: {
+                value: 6,
+                message: 'Password must be at least 6 characters',
+              },
+            }}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 style={styles.input}
@@ -81,14 +99,31 @@ const SignUp = () => {
 
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Confirm Password:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={'Confirm Password'}
-            keyboardType="default"
-            secureTextEntry
+          <Controller
+            control={control}
+            name="confirmPassword"
+            rules={{
+              required: 'Confirm Password is required',
+              validate: value =>
+                value === password || 'Password does not match',
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder={'Confirm Password'}
+                keyboardType="default"
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry
+              />
+            )}
           />
         </View>
-        <Button title="Sign UP" onPress={handleSubmit(handleSignUp)} />
+        <Button
+          title={isSubmitting ? 'Signing Up' : 'Sign Up'}
+          onPress={handleSubmit(handleSignUp)}
+          disabled={isSubmitting}
+        />
       </View>
     </SafeAreaView>
   );
