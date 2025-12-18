@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icon from '../../assets/icons/icons8-profile-100.png';
 import { useForm, Controller } from 'react-hook-form';
@@ -9,10 +16,15 @@ import { useRouter } from 'expo-router';
 const Login = () => {
   const { handleSubmit, control } = useForm();
   const router = useRouter();
+
+  const handleNavigate = () => {
+    router.replace('/(auth)/SignUp');
+  };
+
   const onSubmit = async (data: { email: string; password: string }) => {
     try {
       await authService.handleUserLogin(data.email, data.password);
-      router.replace('/home');
+      router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -23,7 +35,8 @@ const Login = () => {
       <View style={styles.topContainer}>
         <Image source={icon} style={styles.img} />
       </View>
-      <Text style={styles.heading}>Login</Text>
+
+      <Text style={styles.heading}>Welcome Back</Text>
 
       <View style={styles.inputContainer}>
         <Controller
@@ -33,7 +46,7 @@ const Login = () => {
           render={({ field: { onChange, value } }) => (
             <TextInput
               style={styles.input}
-              placeholder="Enter Your Email"
+              placeholder="Email"
               value={value}
               onChangeText={onChange}
               keyboardType="email-address"
@@ -47,14 +60,24 @@ const Login = () => {
           render={({ field: { onChange, value } }) => (
             <TextInput
               style={styles.input}
-              secureTextEntry
-              onChangeText={onChange}
+              placeholder="Password"
               value={value}
-              placeholder={'Enter Your Password'}
+              onChangeText={onChange}
+              secureTextEntry
             />
           )}
         />
-        <Button title="Login" onPress={handleSubmit(onSubmit)} />
+
+        <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+
+        <Pressable onPress={handleNavigate} style={styles.signupRedirect}>
+          <Text style={styles.signupText}>
+            Don't have an account?{' '}
+            <Text style={styles.signupLink}>Sign Up</Text>
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -63,41 +86,61 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
-  input: {
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 3,
-    margin: 5,
-    height: 40,
-  },
-  topContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 5,
-    padding: 8,
-    margin: 5,
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f9f9f9',
     justifyContent: 'center',
   },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 10,
-    padding: 2,
+  topContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
   },
   img: {
     width: 100,
     height: 100,
-  },
-  container: {
-    display: 'flex',
-    padding: 4,
-    marginTop: 12,
-    alignContent: 'center',
+    marginBottom: 10,
   },
   heading: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '700',
     textAlign: 'center',
-    margin: 5,
+    marginBottom: 30,
+    color: '#333',
+  },
+  inputContainer: {
+    gap: 15,
+  },
+  input: {
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    fontSize: 16,
+  },
+  button: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#4a90e2',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  signupRedirect: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  signupText: {
+    color: '#666',
+    fontSize: 14,
+  },
+  signupLink: {
+    color: '#4a90e2',
+    fontWeight: '600',
   },
 });

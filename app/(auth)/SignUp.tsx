@@ -1,9 +1,18 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import authService from '../database/appwrite';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'expo-router';
+import { setUserSignup } from '../database/storage';
+
 const SignUp = () => {
   type SignUpFormData = {
     fullName: string;
@@ -11,7 +20,12 @@ const SignUp = () => {
     password: string;
     confirmPassword: string;
   };
+
   const router = useRouter();
+
+  const handleNavigate = () => {
+    router.replace('/(auth)/Login');
+  };
 
   const {
     handleSubmit,
@@ -28,102 +42,101 @@ const SignUp = () => {
         data.password,
         data.fullName,
       );
-      router.replace('/home');
+      setUserSignup('isUserSigned', true);
+      router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
-    <SafeAreaView>
-      <Text style={styles.heading}>SignUp</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.heading}>Create Account</Text>
       <View style={styles.inputContainer}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Full Name:</Text>
-          <Controller
-            control={control}
-            name="fullName"
-            rules={{ required: 'Name is required field' }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                style={styles.input}
-                onChangeText={onChange}
-                value={value}
-                placeholder={'Enter Your Full Name'}
-                keyboardType="default"
-              />
-            )}
-          />
-        </View>
+        <Controller
+          control={control}
+          name="fullName"
+          rules={{ required: 'Name is required' }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              style={styles.input}
+              placeholder="Full Name"
+              value={value}
+              onChangeText={onChange}
+            />
+          )}
+        />
 
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Email:</Text>
-          <Controller
-            control={control}
-            name="email"
-            rules={{ required: 'Email is required' }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Your Email"
-                value={value}
-                onChangeText={onChange}
-                keyboardType="email-address"
-              />
-            )}
-          />
-        </View>
+        <Controller
+          control={control}
+          name="email"
+          rules={{ required: 'Email is required' }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={value}
+              onChangeText={onChange}
+              keyboardType="email-address"
+            />
+          )}
+        />
 
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Password:</Text>
-          <Controller
-            name="password"
-            control={control}
-            rules={{
-              required: 'Password is required',
-              minLength: {
-                value: 6,
-                message: 'Password must be at least 6 characters',
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                style={styles.input}
-                secureTextEntry
-                onChangeText={onChange}
-                value={value}
-                placeholder={'Enter Your Password'}
-              />
-            )}
-          />
-        </View>
+        <Controller
+          name="password"
+          control={control}
+          rules={{
+            required: 'Password is required',
+            minLength: { value: 6, message: 'Minimum 6 characters' },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={value}
+              onChangeText={onChange}
+              secureTextEntry
+            />
+          )}
+        />
 
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Confirm Password:</Text>
-          <Controller
-            control={control}
-            name="confirmPassword"
-            rules={{
-              required: 'Confirm Password is required',
-              validate: value =>
-                value === password || 'Password does not match',
-            }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder={'Confirm Password'}
-                keyboardType="default"
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry
-              />
-            )}
-          />
-        </View>
-        <Button
-          title={isSubmitting ? 'Signing Up' : 'Sign Up'}
+        <Controller
+          control={control}
+          name="confirmPassword"
+          rules={{
+            required: 'Confirm your password',
+            validate: value => value === password || 'Passwords do not match',
+          }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm Password"
+              value={value}
+              onChangeText={onChange}
+              secureTextEntry
+            />
+          )}
+        />
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed ? styles.buttonPressed : null,
+            isSubmitting ? styles.buttonDisabled : null,
+          ]}
           onPress={handleSubmit(handleSignUp)}
           disabled={isSubmitting}
-        />
+        >
+          <Text style={styles.buttonText}>
+            {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+          </Text>
+        </Pressable>
+
+        <Pressable onPress={handleNavigate} style={styles.loginRedirect}>
+          <Text style={styles.loginText}>
+            Already have an account? <Text style={styles.loginLink}>Login</Text>
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -132,35 +145,58 @@ const SignUp = () => {
 export default SignUp;
 
 const styles = StyleSheet.create({
-  input: {
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 3,
+  container: {
     flex: 1,
-    height: 42,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: '300',
-  },
-  labelContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 8,
-    padding: 5,
+    padding: 20,
+    backgroundColor: '#f9f9f9',
+    justifyContent: 'center',
   },
   heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#333',
     textAlign: 'center',
-    margin: 5,
-    padding: 5,
+    marginBottom: 30,
   },
   inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 8,
-    padding: 5,
-    margin: 5,
+    gap: 15,
+  },
+  input: {
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    fontSize: 16,
+  },
+  button: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#4a90e2',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonPressed: {
+    backgroundColor: '#357ABD',
+  },
+  buttonDisabled: {
+    backgroundColor: '#a0c1f7',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  loginRedirect: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  loginText: {
+    color: '#666',
+    fontSize: 14,
+  },
+  loginLink: {
+    color: '#4a90e2',
+    fontWeight: '600',
   },
 });

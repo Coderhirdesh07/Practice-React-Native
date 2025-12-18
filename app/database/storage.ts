@@ -27,3 +27,22 @@ export async function retrieveItemFromStorage(key: string) {
     console.log(error);
   }
 }
+export async function setUserSignup(key: string, value: boolean) {
+  try {
+    await Storage.setItem({ key, value });
+    console.log('item saved');
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getUserSignup(key: string) {
+  try {
+    const item = await Storage.getItem({ key });
+    if (item !== null) {
+      const parsedItem = JSON.parse(item);
+      return parsedItem;
+    } else return null;
+  } catch (error) {
+    console.log(error);
+  }
+}

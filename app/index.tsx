@@ -10,9 +10,9 @@ const SplashScreen = () => {
     const timer = setTimeout(() => {
       if (isLoggedIn) {
         setLoggedIn(true);
-        router.replace('/home'); // main tabs
+        router.replace('/(tabs)/HomeScreen'); // main tabs
       } else {
-        router.replace('/login'); // auth
+        router.replace('/(auth)/SignUp'); // auth
       }
     }, 2000);
 
