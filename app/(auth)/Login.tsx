@@ -74,7 +74,7 @@ const Login = () => {
 
         <Pressable onPress={handleNavigate} style={styles.signupRedirect}>
           <Text style={styles.signupText}>
-            Don't have an account?{' '}
+            Create an Account
             <Text style={styles.signupLink}>Sign Up</Text>
           </Text>
         </Pressable>

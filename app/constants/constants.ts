@@ -31,3 +31,11 @@ export const cardCategory = [
     colour: '#9B59B6', // purple
   },
 ];
+
+export const keys = {
+  country: 'COUNTRY-NAME',
+  language: 'LANGUAGE',
+  name: 'USERNAME',
+  email: 'USEREMAIL',
+  loggedIn: 'ISUSERLOGGEDIN',
+};

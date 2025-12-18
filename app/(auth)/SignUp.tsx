@@ -1,17 +1,11 @@
 import React from 'react';
-import {
-  Button,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import authService from '../database/appwrite';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'expo-router';
-import { setUserSignup } from '../database/storage';
+import { setUserSignup, setItemToStorage } from '../database/storage';
+import { keys } from '../constants/constants';
 
 const SignUp = () => {
   type SignUpFormData = {
@@ -42,7 +36,9 @@ const SignUp = () => {
         data.password,
         data.fullName,
       );
-      setUserSignup('isUserSigned', true);
+      setUserSignup(keys.loggedIn, true);
+      setItemToStorage(keys.name, data.fullName);
+      setItemToStorage(keys.email, data.email);
       router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.log(error);
