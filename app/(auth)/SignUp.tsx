@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import authService from '../database/appwrite';
@@ -6,8 +6,10 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'expo-router';
 import { setUserSignup, setItemToStorage } from '../database/storage';
 import { keys } from '../constants/constants';
-
+import { hiddenEye } from '../../assets/icons/hide.png';
+import { shownEye } from '../../assets/icons/view.png';
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
   type SignUpFormData = {
     fullName: string;
     email: string;
@@ -91,10 +93,17 @@ const SignUp = () => {
               placeholder="Password"
               value={value}
               onChangeText={onChange}
-              secureTextEntry
+              inlineImageLeft={showPassword ? shownEye : hiddenEye}
+              secureTextEntry={!showPassword}
             />
           )}
         />
+        {/* <Pressable
+        style={styles.eyeButton}
+        onPress={() => setShowPassword(prev => !prev)}
+      >
+        <Image source={showPassword ? shownEye : hiddenEye} style={styles.eyeIcon} />
+      </Pressable> */}
 
         <Controller
           control={control}
@@ -109,7 +118,6 @@ const SignUp = () => {
               placeholder="Confirm Password"
               value={value}
               onChangeText={onChange}
-              secureTextEntry
             />
           )}
         />

@@ -5,6 +5,7 @@ import NewsItemComponent from '../components/NewsItemComponent';
 import { cardCategory } from '../constants/constants';
 import { NewsApiData } from '../constants/data';
 import { handleApiArticlesEndpoint } from '../networkutils/index';
+import { initDB } from '../database/local';
 
 const HomeScreen = () => {
   const [response, setResponse] = useState<NewsApiData | null>(null);
@@ -25,8 +26,9 @@ const HomeScreen = () => {
     }
   };
 
-  useCallback(() => {
+  useEffect(() => {
     fetchData();
+    initDB();
   }, []);
 
   return (

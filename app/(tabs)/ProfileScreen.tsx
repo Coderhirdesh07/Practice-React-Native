@@ -24,6 +24,7 @@ const ProfileScreen = () => {
   const [email, setEmail] = useState<string | null>('');
   const [region, setregion] = useState<string>('us');
   const [lang, setLang] = useState<string>('general');
+
   const handleStoredData = async () => {
     try {
       const reg = await retrieveItemFromStorage('country');
@@ -63,7 +64,7 @@ const ProfileScreen = () => {
         showsVerticalScrollIndicator={false}
         horizontal={false}
         bounces={false}
-        style={styles.container}
+        contentContainerStyle={styles.container}
       >
         {/* <ProfileComponent title={'My Wallet'} />
         <ProfileComponent title={'My Post'} />
@@ -132,8 +133,9 @@ const styles = StyleSheet.create({
   },
   container: {
     display: 'flex',
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   heading: {
     textAlign: 'center',

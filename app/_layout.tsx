@@ -1,10 +1,11 @@
 import { Stack } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { getUserSignup } from './database/storage';
+import { keys } from './constants/constants';
 export default function RootLayout() {
   const [user, setUser] = useState(false);
   const fakeAuthCheck = async () => {
-    const isLoggedIn = await getUserSignup('isUserSigned');
+    const isLoggedIn = await getUserSignup(keys.loggedIn);
     if (isLoggedIn) setUser(true);
     else setUser(false);
   };
