@@ -1,13 +1,7 @@
 import * as SQLite from 'expo-sqlite';
+import { ArticleOffline } from '../constants/data';
 
 let db: SQLite.SQLiteDatabase;
-
-export type NewsItem = {
-  id?: number;
-  title: string;
-  content: string;
-  createdAt?: string;
-};
 
 export async function initDB() {
   db = await SQLite.openDatabaseAsync('news.db');
@@ -15,22 +9,31 @@ export async function initDB() {
   await db.execAsync(`
         CREATE TABLE IF NOT EXISTS news (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
+        author TEXT NOT NULL,
         content TEXT NOT NULL,
-        createdAt TEXT NOT NULL,
+        description TEXT NOT NULL,
+        publishedAt: TEXT NOT NULL,
+        title: TEXT NOT NULL,
+        url: TEXT NOT NULL,
+        urlToImage: TEXT NOT NULL,
         );
-    `);
+  `);
 }
 
 // queries function
-export async function saveDataToDatabase(title: string, content: string) {
+// author: string,content: string,description: string,publishedAt: string,title: string,url: string,urlToImage: string
+export async function saveDataToDatabase(data: ArticleOffline) {
   if (!db) throw new Error('Database not initialised');
 
   await db.runAsync(
-    `INSERT INTO news (title,content,createdAt) VALUES(?,?,?)`,
-    title,
-    content,
-    new Date().toISOString(),
+    `INSERT INTO news (author,content,description,publishedAt,title,url,urlToImage) VALUES(?,?,?,?,?,?,?)`,
+    data.author,
+    data.content,
+    data.description,
+    data.publishedAt,
+    data.title,
+    data.url,
+    data.urlToImage,
   );
 }
 export async function deleteDataFromDatabase(id: number) {
@@ -41,7 +44,7 @@ export async function deleteDataFromDatabase(id: number) {
 // list in descending order
 export async function listDataFromDatabase() {
   if (!db) throw new Error('Database not initialised');
-  const result = await db.getAllAsync<NewsItem>(
+  const result = await db.getAllAsync<ArticleOffline>(
     `SELECT * FROM news ORDER BY createdAt DESC`,
   );
   return result;

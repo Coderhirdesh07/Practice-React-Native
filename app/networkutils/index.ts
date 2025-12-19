@@ -15,10 +15,6 @@ const API_CONFIG = {
 //   language?: string;
 // }
 
-interface ApiAdditionalInfo {
-  q?: string;
-}
-
 // function buildAdditionalParameter(params: ApiAdditionalInfo = {}) {
 //   const queryParams = new URLSearchParams({
 //     apiKey: API_CONFIG.API_KEY,
@@ -43,8 +39,8 @@ export async function handleApiArticlesEndpoint(
       return apidata;
     }
   } catch (error) {
-    console.log('Data Fetch Error');
-    return null;
+    console.log('Data Fetch Error ');
+    throw error;
   }
 }
 

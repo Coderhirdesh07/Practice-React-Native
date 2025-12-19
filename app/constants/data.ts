@@ -19,3 +19,14 @@ export interface NewsApiData {
   status: string;
   totalResults: number;
 }
+
+export interface ArticleOffline {
+  id?: number;
+  author: string | null;
+  content: string | null;
+  description: string | null;
+  publishedAt: string;
+  title: string;
+  url: string; // unique identifier
+  urlToImage: string | null;
+}

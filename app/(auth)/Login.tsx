@@ -12,6 +12,8 @@ import icon from '../../assets/icons/icons8-profile-100.png';
 import { useForm, Controller } from 'react-hook-form';
 import authService from '../database/appwrite';
 import { useRouter } from 'expo-router';
+import { keys } from '../constants/constants';
+import { setUserSignup, setItemToStorage } from '../database/storage';
 
 const Login = () => {
   const { handleSubmit, control } = useForm();
@@ -24,6 +26,11 @@ const Login = () => {
   const onSubmit = async (data: { email: string; password: string }) => {
     try {
       await authService.handleUserLogin(data.email, data.password);
+
+      await setItemToStorage(keys.email, data.email);
+      await setItemToStorage(keys.name, data.password);
+      await setUserSignup(keys.loggedIn, true);
+
       router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.error('Login failed:', error);

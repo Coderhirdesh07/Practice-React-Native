@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import favourite1 from '../../assets/icons/heart.png'; // filled
 import favourite2 from '../../assets/icons/love.png'; // outline
-import { Article } from '../constants/data';
-
+import { Article, ArticleOffline } from '../constants/data';
+import { deleteDataFromDatabase, saveDataToDatabase } from '../database/local';
 interface NewsItemProps {
   newsItemData: Article;
 }
@@ -20,8 +20,30 @@ interface NewsItemProps {
 const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
   const [favourite, setFavourite] = useState<boolean>(false);
 
-  const handleOnPress = (favourite: boolean) => {
-    setFavourite(!favourite);
+  const mapToOfflineArticle = (): ArticleOffline => ({
+    id: undefined, // optional DB primary key
+    title: newsItemData.title ?? 'No title',
+    description: newsItemData.description ?? '',
+    url: newsItemData.url ?? '',
+    urlToImage: newsItemData.urlToImage ?? null,
+    author: newsItemData.author ?? 'Unknown',
+    content: newsItemData.content ?? '',
+    publishedAt: newsItemData.publishedAt ?? new Date().toISOString(),
+  });
+
+  const toggleFavourite = async () => {
+    const newValue = !favourite;
+    setFavourite(newValue);
+
+    const offlineArticle = mapToOfflineArticle();
+
+    if (newValue) {
+      await saveDataToDatabase(offlineArticle);
+    } else {
+      if (offlineArticle.id != null) {
+        await deleteDataFromDatabase(offlineArticle.id);
+      } else console.warn('Cannot delete article');
+    }
   };
 
   const handleWebView = async () => {
@@ -69,10 +91,7 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
         </Text>
       </View>
 
-      <Pressable
-        onPress={() => handleOnPress(favourite)}
-        style={styles.favButton}
-      >
+      <Pressable onPress={toggleFavourite} style={styles.favButton}>
         <Image
           source={favourite ? favourite1 : favourite2}
           style={styles.favIcon}

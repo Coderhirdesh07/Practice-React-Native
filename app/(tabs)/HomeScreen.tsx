@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import CardComponent from '../components/CardComponent';
 import NewsItemComponent from '../components/NewsItemComponent';
@@ -25,7 +25,7 @@ const HomeScreen = () => {
     }
   };
 
-  useEffect(() => {
+  useCallback(() => {
     fetchData();
   }, []);
 

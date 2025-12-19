@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Article } from '../constants/data';
+import { ArticleOffline } from '../constants/data';
 
 interface NewsItemOfflineProps {
-  newsItemData: Article;
+  newsItemData: ArticleOffline;
 }
 
 const NewsItemOfflineComponent = ({ newsItemData }: NewsItemOfflineProps) => {
