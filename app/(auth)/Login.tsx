@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Pressable,
@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icon from '../../assets/icons/icons8-profile-100.png';
@@ -15,9 +16,13 @@ import { useRouter } from 'expo-router';
 import { keys } from '../constants/constants';
 import { setUserSignup, setItemToStorage } from '../database/storage';
 
+const hiddenEye = require('../../assets/icons/hide.png');
+const shownEye = require('../../assets/icons/view.png');
+
 const Login = () => {
   const { handleSubmit, control } = useForm();
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleNavigate = () => {
     router.replace('/(auth)/SignUp');
@@ -62,16 +67,31 @@ const Login = () => {
         />
         <Controller
           name="password"
+          defaultValue=""
           control={control}
-          rules={{ required: 'Password is required' }}
+          rules={{
+            required: 'Password is required',
+            minLength: { value: 6, message: 'Minimum 6 characters' },
+          }}
           render={({ field: { onChange, value } }) => (
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              value={value}
-              onChangeText={onChange}
-              secureTextEntry
-            />
+            <View style={{ position: 'relative' }}>
+              <TextInput
+                style={[styles.input, { paddingRight: 45 }]}
+                placeholder="Password"
+                value={value}
+                onChangeText={onChange}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity
+                style={{ position: 'absolute', right: 10, top: 15 }}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Image
+                  style={{ height: 24, width: 24 }}
+                  source={showPassword ? shownEye : hiddenEye}
+                />
+              </TouchableOpacity>
+            </View>
           )}
         />
 
@@ -81,7 +101,7 @@ const Login = () => {
 
         <Pressable onPress={handleNavigate} style={styles.signupRedirect}>
           <Text style={styles.signupText}>
-            Create an Account
+            Create an Account?
             <Text style={styles.signupLink}>Sign Up</Text>
           </Text>
         </Pressable>
