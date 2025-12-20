@@ -47,9 +47,11 @@ const SignUp = () => {
         data.password,
         data.fullName,
       );
-      setUserSignup(keys.loggedIn, true);
-      setItemToStorage(keys.name, data.fullName);
-      setItemToStorage(keys.email, data.email);
+      await Promise.all([
+        setUserSignup(keys.loggedIn, true),
+        setItemToStorage(keys.name, data.fullName),
+        setItemToStorage(keys.email, data.email),
+      ]);
       router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.log(error);

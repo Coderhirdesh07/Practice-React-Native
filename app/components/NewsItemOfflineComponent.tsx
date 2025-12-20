@@ -7,66 +7,72 @@ interface NewsItemOfflineProps {
 }
 
 const NewsItemOfflineComponent = ({ newsItemData }: NewsItemOfflineProps) => {
-  function helper(name: string) {
-    alert(`You pressed ${name}`);
-  }
   return (
-    <View>
-      <TouchableOpacity style={styles.newsItemContainer}>
-        {newsItemData.urlToImage ? (
-          <Image
-            source={{ uri: newsItemData.urlToImage }}
-            style={styles.newsimg}
-          />
-        ) : (
-          <View style={[styles.newsimg, { backgroundColor: '#ccc' }]} />
-        )}
-        <View>
-          <Text numberOfLines={2} style={styles.newsTitle}>
-            {newsItemData.title}
-          </Text>
-          <Text
-            ellipsizeMode="tail"
-            numberOfLines={2}
-            style={styles.newsDescription}
-          >
-            {newsItemData.description}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+      {newsItemData.urlToImage ? (
+        <Image
+          source={{ uri: newsItemData.urlToImage }}
+          style={styles.newsImage}
+        />
+      ) : (
+        <View style={[styles.newsImage, { backgroundColor: '#e0e0e0' }]} />
+      )}
+
+      <View style={styles.content}>
+        <Text numberOfLines={2} style={styles.newsTitle}>
+          {newsItemData.title}
+        </Text>
+        <Text numberOfLines={3} style={styles.newsDescription}>
+          {newsItemData.description}
+        </Text>
+        <Text style={styles.sourceText}>
+          {newsItemData.author || 'Unknown Author'}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 export default NewsItemOfflineComponent;
 
 const styles = StyleSheet.create({
-  newsContainer: {
-    marginTop: 15,
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 12,
+    marginHorizontal: 16,
+    marginTop: 12,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    gap: 12,
   },
-  newsimg: {
-    width: 80,
-    height: 80,
-    marginBottom: 2,
-    borderRadius: 6,
-    backgroundColor: '#CD1C18',
+  newsImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 12,
+    backgroundColor: '#ccc',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
   newsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textOverflow: 'hidden',
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#111',
   },
   newsDescription: {
-    fontSize: 12,
-    textOverflow: 'hidden',
+    fontSize: 13,
+    color: '#555',
+    marginTop: 4,
   },
-  newsItemContainer: {
-    display: 'flex',
-    backgroundColor: '#898989',
-    flexDirection: 'row',
-    gap: 5,
-    borderRadius: 8,
-    padding: 12,
-    marginTop: 10,
+  sourceText: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 6,
   },
 });

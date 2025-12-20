@@ -19,18 +19,19 @@ import {
 import logout from '../../assets/icons/logout.png';
 import { keys } from '../constants/constants';
 import authService from '../database/appwrite';
+import { useRouter } from 'expo-router';
 const ProfileScreen = () => {
   const [userName, setUserName] = useState<string | null>('');
   const [email, setEmail] = useState<string | null>('');
   const [region, setregion] = useState<string>('us');
   const [lang, setLang] = useState<string>('general');
-
+  const router = useRouter();
   const handleStoredData = async () => {
     try {
-      const reg = await retrieveItemFromStorage('country');
-      const lan = await retrieveItemFromStorage('language');
-      const name = await retrieveItemFromStorage('fullName');
-      const Email = await retrieveItemFromStorage('email');
+      const reg = await retrieveItemFromStorage(keys.country);
+      const lan = await retrieveItemFromStorage(keys.language);
+      const name = await retrieveItemFromStorage(keys.name);
+      const Email = await retrieveItemFromStorage(keys.email);
       setregion(reg ?? 'us');
       setLang(lan ?? 'en');
       setEmail(Email);
@@ -41,19 +42,25 @@ const ProfileScreen = () => {
   };
   useEffect(() => {
     handleStoredData();
-  });
+  }, []);
 
-  const handleButtonOnPress = () => {
-    setItemToStorage(keys.country, region);
-    setItemToStorage(keys.language, lang);
+  const handleButtonOnPress = async () => {
+    await Promise.all([
+      setItemToStorage(keys.country, region),
+      setItemToStorage(keys.language, lang),
+    ]);
   };
+
   const handleOnLogout = async () => {
-    await deleteItemFromStorage(keys.country);
-    await deleteItemFromStorage(keys.email);
-    await deleteItemFromStorage(keys.loggedIn);
-    await deleteItemFromStorage(keys.language);
-    await deleteItemFromStorage(keys.name);
+    await Promise.all([
+      deleteItemFromStorage(keys.country),
+      deleteItemFromStorage(keys.email),
+      deleteItemFromStorage(keys.loggedIn),
+      deleteItemFromStorage(keys.language),
+      deleteItemFromStorage(keys.name),
+    ]);
     await authService.handleUserLogout();
+    router.replace('/(auth)/Login');
   };
 
   return (
@@ -72,17 +79,17 @@ const ProfileScreen = () => {
         <ProfileComponent title={'Notification'} />
         <ProfileComponent title={'Terms And Conditions'} />
         <ProfileComponent title={'About'} /> */}
-        <ProfileComponent title={userName || ''} />
-        <ProfileComponent title={email || ''} />
+        <ProfileComponent title={userName || 'UserName will Appear'} />
+        <ProfileComponent title={email || 'Email will appear'} />
 
         <Dropdown
           style={styles.dropdown}
           placeholder="Select Country"
           data={country}
           value={region ?? ''}
-          maxHeight={300}
-          labelField="value"
-          valueField="label"
+          maxHeight={320}
+          labelField="label"
+          valueField="value"
           onChange={item => {
             setregion(item.value);
           }}
@@ -91,14 +98,14 @@ const ProfileScreen = () => {
         <Dropdown
           style={styles.dropdown}
           placeholder="Select Language"
-          value={lang ?? ''}
           data={language}
+          value={lang}
           maxHeight={320}
-          labelField="value"
-          valueField="label"
-          onChange={item => {
-            setLang(item.value);
-          }}
+          labelField="label" // displays 'Hebrew'
+          valueField="value" // sets lang = 'he'
+          placeholderStyle={{ color: '#888', fontSize: 16 }}
+          selectedTextStyle={{ fontSize: 16, color: '#333' }}
+          onChange={item => setLang(item.value)}
         />
 
         <Pressable style={styles.logoutItem} onPress={handleOnLogout}>
@@ -116,26 +123,25 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   label: {
-    fontSize: 14,
-    fontWeight: 'semibold',
-    marginHorizontal: 2,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginHorizontal: 8,
   },
   logoutImg: {
-    width: 10,
-    height: 10,
-    padding: 3,
+    width: 30,
+    height: 30,
+    padding: 10,
   },
   logoutItem: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 3,
-    padding: 3,
+    gap: 5,
+    padding: 10,
   },
   container: {
-    display: 'flex',
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 10,
+    margin: 10,
+    gap: 12,
   },
   heading: {
     textAlign: 'center',
@@ -145,11 +151,13 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   dropdown: {
-    height: 40,
-    padding: 8,
-    marginTop: 8,
-    marginBottom: 5,
-    borderRadius: 5,
-    borderWidth: 3,
+    height: 50,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc', // important!
+    paddingHorizontal: 12,
+    backgroundColor: '#fff', // makes it visible
+    marginBottom: 15,
+    justifyContent: 'center',
   },
 });

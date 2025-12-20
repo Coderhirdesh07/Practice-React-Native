@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import CardComponent from '../components/CardComponent';
 import NewsItemComponent from '../components/NewsItemComponent';
@@ -27,8 +27,16 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    fetchData();
-    initDB();
+    const setup = async () => {
+      try {
+        await initDB();
+        console.log('Database initialized');
+        fetchData();
+      } catch (err) {
+        console.error('DB init failed:', err);
+      }
+    };
+    setup();
   }, []);
 
   return (

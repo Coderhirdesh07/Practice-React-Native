@@ -4,19 +4,20 @@ import { ArticleOffline } from '../constants/data';
 let db: SQLite.SQLiteDatabase;
 
 export async function initDB() {
-  db = await SQLite.openDatabaseAsync('news.db');
+  db = await SQLite.openDatabaseAsync('news.db'); // add .db extension for clarity
 
   await db.execAsync(`
-        CREATE TABLE IF NOT EXISTS news (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        author TEXT NOT NULL,
-        content TEXT NOT NULL,
-        description TEXT NOT NULL,
-        publishedAt: TEXT NOT NULL,
-        title: TEXT NOT NULL,
-        url: TEXT NOT NULL,
-        urlToImage: TEXT NOT NULL,
-        );
+    CREATE TABLE IF NOT EXISTS news (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      author TEXT NOT NULL,
+      content TEXT NOT NULL,
+      description TEXT NOT NULL,
+      publishedAt TEXT NOT NULL,
+      title TEXT NOT NULL,
+      url TEXT NOT NULL,
+      urlToImage TEXT,
+      createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 }
 
@@ -36,6 +37,7 @@ export async function saveDataToDatabase(data: ArticleOffline) {
     data.urlToImage,
   );
 }
+
 export async function deleteDataFromDatabase(id: number) {
   if (!db) throw new Error('Database not initialised');
 

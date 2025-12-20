@@ -34,15 +34,18 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
   const toggleFavourite = async () => {
     const newValue = !favourite;
     setFavourite(newValue);
-
     const offlineArticle = mapToOfflineArticle();
-
-    if (newValue) {
-      await saveDataToDatabase(offlineArticle);
-    } else {
-      if (offlineArticle.id != null) {
-        await deleteDataFromDatabase(offlineArticle.id);
-      } else console.warn('Cannot delete article');
+    try {
+      if (newValue) {
+        await saveDataToDatabase(offlineArticle);
+      } else {
+        if (offlineArticle.id != null) {
+          await deleteDataFromDatabase(offlineArticle.id);
+        } else console.warn('Cannot delete article');
+      }
+    } catch (error) {
+      console.error('Error updating favourite:', error);
+      Alert.alert('Something went wrong');
     }
   };
 

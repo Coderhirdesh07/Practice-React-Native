@@ -33,9 +33,7 @@ const Login = () => {
       await authService.handleUserLogin(data.email, data.password);
 
       await setItemToStorage(keys.email, data.email);
-      await setItemToStorage(keys.name, data.password);
       await setUserSignup(keys.loggedIn, true);
-
       router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.error('Login failed:', error);
