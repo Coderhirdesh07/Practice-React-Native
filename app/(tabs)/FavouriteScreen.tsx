@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, View, Text, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArticleOffline } from '../constants/data';
 import NewsItemOfflineComponent from '../components/NewsItemOfflineComponent';
-import { listDataFromDatabase } from '../database/local';
+import {
+  listDataFromDatabase,
+  deleteDataFromDatabase,
+} from '../database/local';
 
 const FavouriteScreen = () => {
   const [articles, setArticles] = useState<ArticleOffline[]>([]);
@@ -29,6 +32,11 @@ const FavouriteScreen = () => {
     setRefreshing(false);
   }, []);
 
+  // This is passed to each NewsItemOfflineComponent
+  const handleDelete = (id: number) => {
+    setArticles(prev => prev.filter(article => article.id !== id));
+  };
+
   const renderEmpty = () => (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyText}>No favourite articles yet.</Text>
@@ -40,9 +48,12 @@ const FavouriteScreen = () => {
       <Text style={styles.heading}>Favourites</Text>
       <FlatList
         data={articles}
-        keyExtractor={(item, index) => item.url || index.toString()}
+        keyExtractor={item => item.id?.toString() || Math.random().toString()}
         renderItem={({ item }) => (
-          <NewsItemOfflineComponent newsItemData={item} />
+          <NewsItemOfflineComponent
+            newsItemData={item}
+            onDelete={handleDelete}
+          />
         )}
         contentContainerStyle={
           articles.length === 0 ? styles.flatListEmpty : undefined

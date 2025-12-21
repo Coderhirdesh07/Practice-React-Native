@@ -14,7 +14,7 @@ import { useForm, Controller } from 'react-hook-form';
 import authService from '../database/appwrite';
 import { useRouter } from 'expo-router';
 import { keys } from '../constants/constants';
-import { setUserSignup, setItemToStorage } from '../database/storage';
+import { setItemToStorage } from '../database/storage';
 
 const hiddenEye = require('../../assets/icons/hide.png');
 const shownEye = require('../../assets/icons/view.png');
@@ -31,9 +31,9 @@ const Login = () => {
   const onSubmit = async (data: { email: string; password: string }) => {
     try {
       await authService.handleUserLogin(data.email, data.password);
-
       await setItemToStorage(keys.email, data.email);
-      await setUserSignup(keys.loggedIn, true);
+      await setItemToStorage(keys.loggedIn, true);
+
       router.replace('/(tabs)/HomeScreen');
     } catch (error) {
       console.error('Login failed:', error);

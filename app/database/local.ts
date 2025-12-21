@@ -22,7 +22,6 @@ export async function initDB() {
 }
 
 // queries function
-// author: string,content: string,description: string,publishedAt: string,title: string,url: string,urlToImage: string
 export async function saveDataToDatabase(data: ArticleOffline) {
   if (!db) throw new Error('Database not initialised');
 

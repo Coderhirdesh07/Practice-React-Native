@@ -18,7 +18,10 @@ module.exports = defineConfig({
   ],
   rules: {
     // Remove unused variables
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
     'unused-imports/no-unused-imports': 'error',
 
     // Optional: warn instead of error

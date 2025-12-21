@@ -21,12 +21,12 @@ export interface NewsApiData {
 }
 
 export interface ArticleOffline {
-  id?: number;
+  id: number | null;
   author: string | null;
   content: string | null;
   description: string | null;
   publishedAt: string;
   title: string;
-  url: string; // unique identifier
+  url: string;
   urlToImage: string | null;
 }

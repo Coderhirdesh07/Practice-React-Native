@@ -21,7 +21,7 @@ const NewsItemComponent = ({ newsItemData }: NewsItemProps) => {
   const [favourite, setFavourite] = useState<boolean>(false);
 
   const mapToOfflineArticle = (): ArticleOffline => ({
-    id: undefined, // optional DB primary key
+    id: undefined,
     title: newsItemData.title ?? 'No title',
     description: newsItemData.description ?? '',
     url: newsItemData.url ?? '',

@@ -1,12 +1,40 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { ArticleOffline } from '../constants/data';
+import deleteIcon from '../../assets/icons/icons8-delete-96.png';
+import { deleteDataFromDatabase } from '../database/local';
 
 interface NewsItemOfflineProps {
   newsItemData: ArticleOffline;
+  onDelete: (id: number) => void;
 }
 
-const NewsItemOfflineComponent = ({ newsItemData }: NewsItemOfflineProps) => {
+const NewsItemOfflineComponent = ({
+  newsItemData,
+  onDelete,
+}: NewsItemOfflineProps) => {
+  const handleArticleDelete = async () => {
+    const id = newsItemData.id;
+
+    if (id === null || id === undefined) {
+      console.warn('Cannot delete article: missing id');
+      return;
+    }
+    try {
+      await deleteDataFromDatabase(Number(id));
+      onDelete(Number(id));
+    } catch (error) {
+      console.error('Failed to delete article:', error);
+    }
+  };
+
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.8}>
       {newsItemData.urlToImage ? (
@@ -29,6 +57,13 @@ const NewsItemOfflineComponent = ({ newsItemData }: NewsItemOfflineProps) => {
           {newsItemData.author || 'Unknown Author'}
         </Text>
       </View>
+
+      <Pressable onPress={handleArticleDelete} hitSlop={10}>
+        <Image
+          style={{ height: 20, width: 20, padding: 5 }}
+          source={deleteIcon}
+        />
+      </Pressable>
     </TouchableOpacity>
   );
 };

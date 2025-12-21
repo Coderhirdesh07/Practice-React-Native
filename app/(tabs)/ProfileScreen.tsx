@@ -26,20 +26,35 @@ const ProfileScreen = () => {
   const [region, setregion] = useState<string>('us');
   const [lang, setLang] = useState<string>('general');
   const router = useRouter();
+
   const handleStoredData = async () => {
     try {
       const reg = await retrieveItemFromStorage(keys.country);
       const lan = await retrieveItemFromStorage(keys.language);
-      const name = await retrieveItemFromStorage(keys.name);
-      const Email = await retrieveItemFromStorage(keys.email);
+      const emailFromStorage = await retrieveItemFromStorage(keys.email);
+      const nameFromStorage = await retrieveItemFromStorage(keys.name);
+
       setregion(reg ?? 'us');
       setLang(lan ?? 'en');
-      setEmail(Email);
-      setUserName(name);
+      setEmail(emailFromStorage ?? '');
+
+      let finalName = nameFromStorage;
+
+      // If name is not in storage, fetch from server
+      if (!finalName && emailFromStorage) {
+        const user = await authService.handleGetCurrentUser(); // Make sure it returns { name, email, ... }
+        finalName = user?.name ?? '';
+        if (finalName) {
+          await setItemToStorage(keys.name, finalName);
+        }
+      }
+
+      setUserName(finalName);
     } catch (error) {
-      console.log(` ${error}  + cannot fetch data from local storage`);
+      console.log(`${error} + cannot fetch data from local storage`);
     }
   };
+
   useEffect(() => {
     handleStoredData();
   }, []);
@@ -101,8 +116,8 @@ const ProfileScreen = () => {
           data={language}
           value={lang}
           maxHeight={320}
-          labelField="label" // displays 'Hebrew'
-          valueField="value" // sets lang = 'he'
+          labelField="label"
+          valueField="value"
           placeholderStyle={{ color: '#888', fontSize: 16 }}
           selectedTextStyle={{ fontSize: 16, color: '#333' }}
           onChange={item => setLang(item.value)}
