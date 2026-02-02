@@ -1,16 +1,19 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "paths": {
-      "@/*": ["./*"]
-    }
+    "module": "commonjs",
+    "target": "es2019",
+    "types": [
+      "jest",
+      "node",
+      "detox"
+    ],
+    "esModuleInterop": true,
+    "isolatedModules": false
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "image.d.ts"
+    "expo-env.d.ts"
   ]
 }
