@@ -109,7 +109,7 @@ export default NewsItemComponent;
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#a2faa5',
     borderRadius: 12,
     padding: 12,
     marginHorizontal: 12,

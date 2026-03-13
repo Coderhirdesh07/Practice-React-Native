@@ -72,12 +72,13 @@ export default SearchScreen;
 
 const styles = StyleSheet.create({
   input: {
-    padding: 2,
-    height: 30,
+    padding: 8,
+    paddingRight:10,
+    height: 40,
     flex: 1,
     borderColor: '#000',
     borderWidth: 3,
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 8,
   },
   secondContainer: {
@@ -85,8 +86,8 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   img: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     padding: 3,
     marginTop: 8,
     borderRadius: 2,

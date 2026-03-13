@@ -1,6 +1,7 @@
 export const DATABASE_CONFIGURATION = {
   ENDPOINT: 'https://sgp.cloud.appwrite.io/v1',
   PROJECT_ID: '693f9bc7003bad4f8bc3',
+  APPWRITE_BUCKET_ID:"69b3b9b7003281b09c88"
 };
 export const API_CONFIG = {
   API_KEY: '6fa37c2d9a784fb58ff0cf1a80f044e3',

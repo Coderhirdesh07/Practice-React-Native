@@ -20,6 +20,7 @@ import logout from '../../assets/icons/logout.png';
 import { keys } from '../constants/constants';
 import authService from '../database/appwrite';
 import { useRouter } from 'expo-router';
+import profile from "../../assets/icons/icons8-profile-100.png";
 const ProfileScreen = () => {
   const [userName, setUserName] = useState<string | null>('');
   const [email, setEmail] = useState<string | null>('');
@@ -80,6 +81,7 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Image source={profile} style={styles.profileImg}/>
       <Text style={styles.heading}>Profile</Text>
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -88,12 +90,8 @@ const ProfileScreen = () => {
         bounces={false}
         contentContainerStyle={styles.container}
       >
-        {/* <ProfileComponent title={'My Wallet'} />
-        <ProfileComponent title={'My Post'} />
-        <ProfileComponent title={'Boost Your Post'} />
-        <ProfileComponent title={'Notification'} />
         <ProfileComponent title={'Terms And Conditions'} />
-        <ProfileComponent title={'About'} /> */}
+        <ProfileComponent title={'About'} /> 
         <ProfileComponent title={userName || 'UserName will Appear'} />
         <ProfileComponent title={email || 'Email will appear'} />
 
@@ -141,6 +139,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginHorizontal: 8,
+  },
+  profileImg:{
+    width:40,
+    height:40,
+    padding:10,
+    borderRadius:10,
   },
   logoutImg: {
     width: 30,
